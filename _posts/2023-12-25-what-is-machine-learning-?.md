@@ -30,4 +30,4 @@ else if (there are two lines) {
 
 This is just pseudo code, imagine writing the actual algorithm. There should be a much better, efficient and intelligent way of doing this, which is, of course, machine learning. 
 
-Given sufficient data for training, ML algorithms can learn the underlying patterns and be able to generalise to new data. So for example, the algorithm learns the pattern that if there are two curves on top of each other, then it is most likely an eighth, and so on. And now given any new handwriting of eighth that it has not seen, it should be able to predict the correct number.
+Given sufficient data for training, ML algorithms can learn the underlying patterns and be able to generalise to new data. So for example, the algorithm learns the pattern that if there are two curves on top of each other, then it is most likely an eight, and so on. And now given any new handwriting of eight that it has not seen, it should be able to predict the correct number.
