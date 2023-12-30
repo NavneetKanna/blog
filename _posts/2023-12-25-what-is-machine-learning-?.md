@@ -36,7 +36,7 @@ Given sufficient data for training, ML algorithms can learn the underlying patte
 
 The main idea is, a neural network tries to approximate a function. Given a dataset of inputs and outputs, we assume that there was some underlying function that produced the output values given the input values and its the goal of a neural network to approximate this function as close as possible.
 
-Given some function $$ y = f^*(x) $$, a neural network defines a mapping $$ y = f(x) $$ which is a best approximation to $$ f^* $$.
+Given some function $$ y = f^*(x) $$, a neural network defines a mapping $$ y = f(x) $$ which is a close approximation to $$ f^* $$.
 
 The branch of mathematics related to this is called Function approximation. In the mathematical theory of artificial neural networks, there is a theorem called Universal approximation theorem, which states that
 
