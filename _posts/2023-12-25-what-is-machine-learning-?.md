@@ -31,3 +31,13 @@ else if (there are two lines) {
 This is just pseudo code, imagine writing the actual algorithm. There should be a much better, efficient and intelligent way of doing this, which is, of course, machine learning. 
 
 Given sufficient data for training, ML algorithms can learn the underlying patterns and be able to generalise to new data. So for example, the algorithm learns the pattern that if there are two curves on top of each other, then it is most likely an eight, and so on. And now given any new handwriting of eight that it has not seen, it should be able to predict the correct number.
+
+### Mathematical Definition
+
+The core principle behind a NN is that it is trying to approximate a function. Given a dataset of inputs and outputs, we assume that there was some underlying function that produced the output values given the input values. The job of the NN is to approximate this function as close as possible.
+
+The branch of mathematics related to this is called Function approximation. In the mathematical theory of artificial neural networks, there is a theorem called Universal approximation theorem, which states that
+
+> A neural network with an output layer and at least one hidden layer with an activation function can approximate any function.
+
+An important point to note here is that, neural networks are universal approximator, they can be used to approximate any kind of function.
