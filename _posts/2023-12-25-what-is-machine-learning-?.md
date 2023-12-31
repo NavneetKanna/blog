@@ -4,7 +4,7 @@ title: "Part 1:  What is machine learning ?"
 date: 2023-12-25
 ---
 
-Before delving into the realms of machine learning, it's essential to understand its fundamental aspects: What is it? What problems does it aim to solve? And why does it work?
+Before delving into the realms of machine learning, it's essential to understand its fundamental aspects: What is it? What problems does it aim to solve? 
 
 ## What is Machine Learning?
 
@@ -43,3 +43,5 @@ The branch of mathematics related to this is called Function approximation. In t
 > A neural network comprising of an output layer and at least one hidden layer with an activation function can approximate any function.
 
 An important point to note here is that, neural networks are universal approximators, ie, they can be used to approximate any kind of function.
+
+So, now we know, what is machine learning and what problem does deep learning solve. With the basics understood, let us now move ahead with understanding forward propogation.
