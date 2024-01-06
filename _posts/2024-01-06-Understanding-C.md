@@ -38,4 +38,8 @@ Steps 3-4:
 
 The problem with strtok() which you might have guessed is the use of a global variable, making it "thread unsafe", which means that, when strtok() is running in one thread and for some reason pauses execution, and, another thread calls strtok(), the value of the global variable will change which affects the calling program on the first thread as well, which is not desired.
 
-The *strtok_()* function is the thread-safe versrion of *strtok()* by having an additional argument called *state*, which is basically the global variable pointer (is also called as an internal state) returned to user and should be passed as arguments in subsequent calls.
+The *strtok_r()* function is the thread-safe versrion of *strtok()* by having an additional argument called *state*, which is basically the global variable pointer (also called internal state) returned to user and should be passed as arguments in subsequent calls.
+
+The *_r* in the function name is called reentrant. **Reentrancy** is a concept in computing which means that a function can be interrupted and safely be called by another program (re-entered) without any ill-effect.
+
+Based on my explanation, I hope it is clear that *strtok()* is not a reentrant function and *strtok_r()* is one.
