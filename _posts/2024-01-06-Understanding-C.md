@@ -37,3 +37,5 @@ Steps 3-4:
 ![step3-4]({{ "/assets/images/strtok_2.svg" | prepend: site.baseurl }})
 
 The problem with strtok() which you might have guessed is the use of a global variable, making it "thread unsafe", which means that, when strtok() is running in one thread and for some reason pauses execution, and, another thread calls strtok(), the value of the global variable will change which affects the calling program on the first thread as well, which is not desired.
+
+The *strtok_()* function is the thread-safe versrion of *strtok()* by having an additional argument called *state*, which is basically the global variable pointer (is also called as an internal state) returned to user and should be passed as arguments in subsequent calls.
