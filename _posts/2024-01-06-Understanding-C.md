@@ -24,5 +24,5 @@ It should be called multiple times to get successive tokens.
 4. Now it replaces the *delim* character with null charcter and a global pointer variable stores the next character. And returns the *tmp* pointer.
 5. In subsequent calls, *s* should be null, which means it will continue from where it left off and repeats the steps 2-4.
 
-![test](/assets/images/strtok_1.svg)
-![test](/assets/images/test2.png)
+![test]{{ "/assets/images/strtok_1.svg" | prepend: site.baseurl }}
+![test]{{ "/assets/images/test2.png" | prepend: site.baseurl }}
