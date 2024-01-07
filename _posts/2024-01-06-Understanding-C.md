@@ -46,4 +46,4 @@ Based on my explanation, I hope it is clear that *strtok()* is not a reentrant f
 
 **Strings in c**
 
-Strings are a little confusing.
+In c, anything inside double quotes is called a *string literal*. C stores these string literals as null-terminated char arrays.
