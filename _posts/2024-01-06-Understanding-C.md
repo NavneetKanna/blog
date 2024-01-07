@@ -43,3 +43,7 @@ The *strtok_r()* function is the thread-safe versrion of *strtok()* by having an
 The *_r* in the function name is called reentrant. **Reentrancy** is a concept in computing which means that a function can be interrupted and safely be called by another program (re-entered) without any ill-effect.
 
 Based on my explanation, I hope it is clear that *strtok()* is not a reentrant function and *strtok_r()* is one.
+
+**Strings in c**
+
+Strings are a little confusing.
