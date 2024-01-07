@@ -46,4 +46,24 @@ Based on my explanation, I hope it is clear that *strtok()* is not a reentrant f
 
 **Strings in c**
 
-In c, anything inside double quotes is called a *string literal*. C stores these string literals as null-terminated char arrays.
+In c, anything inside double quotes is called a *string literal*. C stores these string literals as null-terminated char arrays. 
+
+There are two ways to define a string:
+
+1. Using a char array
+
+```c
+char s[] = "hello"
+```
+
+2. Using a pointer
+
+```c
+char *s = "hello"
+```
+
+For the first case, s is an array and a pointer in the second. However, there is one major difference:
+
+1. In the array version, the chars can be modfied. But, in the pointer version, we cannot modify the string.
+
+For a function expecting a char *, either an array or a pointer can be passed, since, the array automatically decays to a pointer to its first element.
