@@ -71,4 +71,4 @@ For a function expecting a char *, either an array or a pointer can be passed, s
 **What is size_t and ssize_t**
 
 1. Unsigned integer type that is used to represent the size of objects in memory. 
-2. *size_t* are used as loop index
+2. *size_t* are used as loop index because sometimes the index can be a larger value than the maximum value that can be represented by an int (2^32-1).
