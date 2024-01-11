@@ -67,3 +67,8 @@ For the first case, s is an array and a pointer in the second. However, there is
 1. In the array version, the chars can be modfied. But, in the pointer version, we cannot modify the string.
 
 For a function expecting a char *, either an array or a pointer can be passed, since, the array automatically decays to a pointer to its first element.
+
+**What is size_t and ssize_t**
+
+1. Unsigned integer type that is used to represent the size of objects in memory. 
+2. *size_t* are used as loop index
