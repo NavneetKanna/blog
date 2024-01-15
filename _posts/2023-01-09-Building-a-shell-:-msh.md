@@ -17,6 +17,7 @@ One main loop running that will:
 Now, coming to the implementation:
 
 Problem: Read input from stdin and lexeify it
+
 Solution 1:
 - read input using fgets()
 - lexify it using strtok_r()
