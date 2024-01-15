@@ -73,3 +73,11 @@ For a function expecting a char *, either an array or a pointer can be passed, s
 1. Unsigned integer type that is used to represent the size of objects in memory. 
 2. *size_t* are used as loop index because sometimes the index can be a larger value than the maximum value that can be represented by an int (2^32-1).
 3. *ssize_t* is the signed version which accounts for -1 as error return type (-1, SSIZE_MAX).
+
+***getchar()*: assigning the returned int value to a char arryay**
+
+So it is possible to do this:
+
+```c
+
+```
