@@ -17,11 +17,12 @@ One main loop running that will:
 
 ### Implementation
 
-Problem: Read input from stdin and lexeify it
+Problem: Read input from stdin and *lexeify* it
 
 Solution 1:
 - read input using fgets()
 - lexify it using strtok_r()
+
 Problems:
 - have to call strtok_r() multiple times, time waste.
 - have to allocate memory for two arrays, one for storing the original input and another for the tokens, memory waste.
