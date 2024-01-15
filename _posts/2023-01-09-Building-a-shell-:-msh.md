@@ -15,7 +15,7 @@ One main loop running that will:
 2. break it down to individual lexemes.
 3. execute the command.
 
-### Implementation
+## Implementation
 
 Problem: Read input from stdin and *lexeify* it
 
