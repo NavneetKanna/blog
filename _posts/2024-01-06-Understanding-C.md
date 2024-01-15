@@ -62,7 +62,7 @@ char s[] = "hello"
 char *s = "hello"
 ```
 
-For the first case, s is an array and a pointer in the second. However, there is one major difference:
+There is one major difference:
 
 1. In the array version, the chars can be modfied. But, in the pointer version, we cannot modify the string.
 
@@ -79,5 +79,11 @@ For a function expecting a char *, either an array or a pointer can be passed, s
 So it is possible to do this:
 
 ```c
+int ch;
+int char_arr[10];
 
+ch = getchar();
+char_arr[0] = ch;
 ```
+
+Since, a char holds 1 byte, which is 8 bits (0-255), when assigning an int to a char, c implicitly converts the int to char. But it is not recommned to do so.
