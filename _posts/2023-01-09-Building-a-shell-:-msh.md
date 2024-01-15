@@ -26,3 +26,6 @@ Solution 1:
 Problems:
 - have to call strtok_r() multiple times, time waste.
 - have to allocate memory for two arrays, one for storing the original input and another for the tokens, memory waste.
+
+Solution 2:
+- read input using getchar() and simultaneously store info about lexemes.
