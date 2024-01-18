@@ -88,4 +88,12 @@ char_arr[0] = ch;
 
 Since, a char holds 1 byte, which is 8 bits (0-255), when assigning an int to a char, c implicitly converts the int to char. But i belive it is not recommned to do so, because some compilers might define a char as a signed or unsigned, varying the range of int values that can be safely converted.
 
-**Difference between struct {...} var; and struct name {...};**
+**Difference between struct {...} var; and struct name {...}; name var;**
+
+1. In the first case the struct has no name, in other words, its like an anonymous struct, whereas, in the second case, the stuct is named as "name". 
+2. Since the struct is named, multiple instances of the struct can be created 
+
+```c
+name var1, var2;
+```
+
