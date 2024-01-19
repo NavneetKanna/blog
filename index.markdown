@@ -4,3 +4,5 @@
 
 layout: home
 ---
+
+One assumption I am going to make is that, the reader has read some basic stuff or has some familiarity with the topics. 
