@@ -13,9 +13,11 @@ $$
 z1 = w1*x1 + b \\
 z2 = w2*x1 + b \\
 
-z3 = (w3*z1 + w5*z2) + b
-z4 = (w4*z1 + w6*z2) + b
+z3 = (w3*z1 + w5*z2) + b \\
+z4 = (w4*z1 + w6*z2) + b \\
 
 o = (w7*z3 + w9*z4) + b 
 
 $$
+
+This is just a linear weighted sum. 
