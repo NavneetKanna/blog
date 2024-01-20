@@ -20,4 +20,4 @@ o = (w7*z3 + w9*z4) + b
 
 $$
 
-The final output is just a linear weighted sum of the form $y = mx + b$. This is because a combination of linear functions is a linear function itself, which is just a straight line. 
+The final output is just a linear weighted sum of the form $y = mx + b$. This is because a combination of linear functions is a linear function itself, which is just a straight line, and hence the model is not really useful if it has to learn a funtion where there is a non-linear (other than a straight line) mapping between the inputs and outputs. 
