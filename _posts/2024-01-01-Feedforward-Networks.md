@@ -20,4 +20,4 @@ o = (w7*z3 + w9*z4) + b
 
 $$
 
-This is just a linear weighted sum. 
+The final output is just a linear weighted sum of the form $y = mx + b$. This is because a combination of linear functions is a linear function itself, which is just a straight line. 
