@@ -8,7 +8,7 @@ date: 2024-01-01
 
 ![feedforward_no_activation]({{ "/assets/images/feedforward_no_activation.svg" | prepend: site.baseurl }})
 
-1. If we dont have activations functions, or in other words, a non-linear function, the forward propagation would like this 
+If we dont have activations functions, or in other words, a non-linear function, the forward propagation would like this 
 
 ```math
 z1 = w1*x1 + b 
