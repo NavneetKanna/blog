@@ -6,6 +6,8 @@ date: 2024-01-01
 
 ## Activation function
 
+![feedforward_no_activation]({{ "/assets/images/feedforward_no_activation.svg" | prepend: site.baseurl }})
+
 1. If we dont have activations functions, or in other words, a non-linear function, the forward propagation would like this 
 
 ```math
