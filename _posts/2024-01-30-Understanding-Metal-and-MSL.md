@@ -19,6 +19,7 @@ device = Metal.MTLCreateSystemDefaultDevice()
     ```python
     options = Metal.MTLCompileOptions.new()
     lib = device.newLibraryWithSource_options_error_(prg, options, None)
+    func_name = lib[0].newFunctionWithName_("addition_compute_function")
     ```
     - Or, write the kernel code in a seperate file with extension *.metal* and [compile it](https://developer.apple.com/documentation/metal/shader_libraries/building_a_shader_library_by_precompiling_source_files?language=objc)
     ```bash
@@ -28,6 +29,7 @@ device = Metal.MTLCreateSystemDefaultDevice()
     and then call *newLibraryWithURL_error_("test.metallib)*
     ```python
     lib = device.newLibraryWithURL_error_("test.metallib", None)
+    func_name = lib[0].newFunctionWithName_("addition_compute_function")
     ```
-    when we print *lib* we should see out compute kernel function name
+    if we print *func_name* we should see the compute kernel function name, device, function type and attributes (maybe the things displayed might vary based on the version of )
 
