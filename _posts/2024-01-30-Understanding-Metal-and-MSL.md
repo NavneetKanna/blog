@@ -31,5 +31,5 @@ device = Metal.MTLCreateSystemDefaultDevice()
     lib = device.newLibraryWithURL_error_("test.metallib", None)
     func_name = lib[0].newFunctionWithName_("addition_compute_function")
     ```
-    if we print *func_name* we should see the compute kernel function name, device, function type and attributes (maybe the things displayed might vary based on the version of )
+    Printing *func_name* should deisplay the compute kernel function name, device, function type and attributes (maybe the things displayed might vary based on the version of )
 
