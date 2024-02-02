@@ -10,7 +10,7 @@ date: 2024-01-30
 ## Steps to execute a kernel function 
 
 1. Write the main compute kernel function in a file ending with *.metal*
-2. Get instance of the GPU to communicate with it, this is done using *MTLCreateSystemDefaultDevice()*
+2. Get an instance of the GPU to communicate with it, this is done using *MTLCreateSystemDefaultDevice()*
 ```python
 device = Metal.MTLCreateSystemDefaultDevice()
 ```
@@ -31,5 +31,7 @@ device = Metal.MTLCreateSystemDefaultDevice()
     lib = device.newLibraryWithURL_error_("test.metallib", None)
     func_name = lib[0].newFunctionWithName_("addition_compute_function")
     ```
-    Printing *func_name* should deisplay the compute kernel function name, device, function type and attributes (maybe the things displayed might vary based on the version of )
+    Printing *func_name* should deisplay the compute kernel function name, device, function type and attributes (maybe the things displayed might vary based on the version of ...)
+    Also, printing *lib* will show errors in the compute kernel code, if there are any. 
+4. The compute kernel code is still not yet an executable code, to make it one, we have to create a pipeline. [A pipeline specifies the steps that the GPU performs to complete a specific task] (https://developer.apple.com/documentation/metal/performing_calculations_on_a_gpu?language=objc)
 
