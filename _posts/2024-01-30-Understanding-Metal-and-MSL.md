@@ -34,4 +34,18 @@ device = Metal.MTLCreateSystemDefaultDevice()
     Printing *func_name* should deisplay the compute kernel function name, device, function type and attributes (maybe the things displayed might vary based on the version of ...)
     Also, printing *lib* will show errors in the compute kernel code, if there are any. 
 4. The compute kernel code is still not yet an executable code, to make it one, we have to create a pipeline. [*A pipeline specifies the steps that the GPU performs to complete a specific task*] (https://developer.apple.com/documentation/metal/performing_calculations_on_a_gpu?language=objc)
-
+```python
+func_pso = device.newComputePipelineStateWithFunction_error_(func_name, None)
+```
+A compute pipeline can run a single compute function, hence multiple compute pipelines are needed for multiple compute functions
+5. Create a command queue, command queue is used to send work(command buffers) to the GPU
+```python
+q = device.newCommandQueue()
+```
+6. Create data buffers,  
+```python
+buff1 = device.newBufferWithLength_options_(int, Metal.MTLResourceStorageModeShared)
+buff2 = ...
+```
+Right now the buffers are allocations of memory without a predefined format. *MTLResourceStorageModeShared()* indicates that both the CPU and GPU uses a shared memory
+7. Create a command buffer
