@@ -32,7 +32,7 @@ device = Metal.MTLCreateSystemDefaultDevice()
     ```
     Printing *func_name* should deisplay the compute kernel function name, device, function type and attributes (maybe the things displayed might vary based on the version of ...)
     Also, printing *lib* will show errors in the compute kernel code, if there are any. 
-3. The compute kernel code is still not yet an executable code, to make it one, we have to create a pipeline. [A pipeline specifies the steps that the GPU performs to complete a specific task] (https://developer.apple.com/documentation/metal/performing_calculations_on_a_gpu?language=objc)
+3. The compute kernel code is still not yet an executable code, to make it one, we have to create a pipeline. [*A pipeline specifies the steps that the GPU performs to complete a specific task*](https://developer.apple.com/documentation/metal/performing_calculations_on_a_gpu?language=objc)
 ```python
 func_pso = device.newComputePipelineStateWithFunction_error_(func_name, None)
 ```
