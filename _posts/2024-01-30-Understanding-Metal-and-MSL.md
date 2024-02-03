@@ -93,3 +93,6 @@ So to summarise:
 - Create a command buffer which holds encoded commands such as the pipeline and arguments
 - Create an encoder which is used to encode commands
 - Encode the pipeline and arguments
+- Encode the command to dispatch the threads
+- End the encoding 
+- Commit the command buffer to the command queue so that it can be executed by the GPU
