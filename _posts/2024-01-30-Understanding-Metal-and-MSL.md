@@ -48,4 +48,23 @@ buff1 = device.newBufferWithLength_options_(int, Metal.MTLResourceStorageModeSha
 buff2 = ...
 ```
 Right now the buffers are allocations of memory without a predefined format. *MTLResourceStorageModeShared()* indicates that both the CPU and GPU uses a shared memory
-7. Create a command buffer
+7. Create a command buffer, a command buffer holds sequence of encoded commands
+```python
+cmd_buf = q.commandBuffer()
+```
+8. Create an encoder
+```python
+encoder = cmd_buf.computeCommandEncoder()
+```
+9. Set the pipeline state and compute kernel function arguments data
+```python
+encoder.setComputePipelineState_(func_pso)
+encoder.setBuffer_offset_atIndex_(buff1, 0, 0)
+encoder.setBuffer_offset_atIndex_(buff2, 0, 1)
+```
+The second parameter is offest: an offset of 0 means the command will access the data from the beginning of a buffer. The third parameter is the index of the argument in the compute kernel function
+10. Specify the grid size (thred count) and the thread group size
+```python
+grid_size = Metal.MTLSizeMake(arrayLength, 1, 1)
+thread_group_size = Metal.MTLSizeMake(threadGroupSize, 1, 1)
+```
