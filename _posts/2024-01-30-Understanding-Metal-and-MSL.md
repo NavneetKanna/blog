@@ -37,7 +37,7 @@ device = Metal.MTLCreateSystemDefaultDevice()
 func_pso = device.newComputePipelineStateWithFunction_error_(func_name, None)
 ```
 A compute pipeline can run a single compute function, hence multiple compute pipelines are needed for multiple compute functions
-4. Create a command queue, command queue is used to send work(command buffers) to the GPU
+4. Create a command queue, which is used to send work(command buffers) to the GPU
 ```python
 q = device.newCommandQueue()
 ```
@@ -62,7 +62,7 @@ encoder.setBuffer_offset_atIndex_(buff1, 0, 0)
 encoder.setBuffer_offset_atIndex_(buff2, 0, 1)
 ```
 The second parameter is offest: an offset of 0 means the command will access the data from the beginning of a buffer. The third parameter is the index of the argument in the compute kernel function
-9. Specify the grid size (thred count) and the thread group size
+9. Specify the grid size (thread count) and the thread group size
 ```python
 grid_size = Metal.MTLSizeMake(arrayLength, 1, 1)
 thread_group_size = Metal.MTLSizeMake(threadGroupSize, 1, 1)
