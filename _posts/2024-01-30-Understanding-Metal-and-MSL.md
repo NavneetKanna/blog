@@ -68,3 +68,19 @@ The second parameter is offest: an offset of 0 means the command will access the
 grid_size = Metal.MTLSizeMake(arrayLength, 1, 1)
 thread_group_size = Metal.MTLSizeMake(threadGroupSize, 1, 1)
 ```
+11. Encode the command to dispatch the threads
+```python
+encoder.dispatchThreads_threadsPerThreadgroup_(grid_size, thread_group_size)
+```
+12. End the encoder, when there are no more commands to encode
+```python
+encoder.endEncoding()
+```
+13. Run the command buffer by commiting it to the queue
+```python
+cmd_buf.commit()
+```
+14. Optionally, the program can wait or do some other task while the GPU is running
+```python
+cmd_buf.waitUntilCompleted()
+```
