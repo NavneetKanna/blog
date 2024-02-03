@@ -83,3 +83,13 @@ cmd_buf.commit()
 ```python
 cmd_buf.waitUntilCompleted()
 ```
+
+So to summarise:
+- Get the device
+- Get the compute kernel function
+- Create a pipeline for the compute kernel function which tells the GPU what to execute 
+- Create a command queue, I like to think of it as a queue to the GPU
+- Create data buffers which are needed for the kernerl function
+- Create a command buffer which holds encoded commands such as the pipeline and arguments
+- Create an encoder which is used to encode commands
+- Encode the pipeline and arguments
