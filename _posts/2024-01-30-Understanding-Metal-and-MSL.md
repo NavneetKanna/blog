@@ -9,7 +9,7 @@ date: 2024-01-30
 
 ## Steps to execute a kernel function 
 
-1. Get an instance of the GPU to communicate to using *MTLCreateSystemDefaultDevice()*
+1. Get an instance of the GPU to communicate too, using *MTLCreateSystemDefaultDevice()*
 ```python
 device = Metal.MTLCreateSystemDefaultDevice()
 ```
