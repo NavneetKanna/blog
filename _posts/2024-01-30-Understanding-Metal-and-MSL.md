@@ -10,7 +10,7 @@ date: 2024-01-30
 ## Steps to execute a kernel function 
 
 1. Write the main compute kernel function in a file ending with *.metal*
-2. Get an instance of the GPU to communicate with it, this is done using *MTLCreateSystemDefaultDevice()*
+2. Get an instance of the GPU to communicate to using *MTLCreateSystemDefaultDevice()*
 ```python
 device = Metal.MTLCreateSystemDefaultDevice()
 ```
