@@ -36,7 +36,7 @@ device = Metal.MTLCreateSystemDefaultDevice()
 ```python
 func_pso = device.newComputePipelineStateWithFunction_error_(func_name, None)
 ```
-A compute pipeline can run a single compute function, hence multiple compute pipelines are needed for multiple compute functions
+PSO defines how input data is interpreted. A compute pipeline can run a single compute function, hence multiple compute pipelines are needed for multiple compute functions
 4. Create a command queue, which is used to send work(command buffers) to the GPU
 ```python
 q = device.newCommandQueue()
