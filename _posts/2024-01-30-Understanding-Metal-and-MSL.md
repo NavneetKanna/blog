@@ -137,8 +137,10 @@ func_pso = device.newComputePipelineStateWithFunction_error_(func_name, None)
 
 q = device.newCommandQueue()
 
-buff1 = device.newBufferWithBytes_length_options_(array1, len(array1.tobytes()), Metal.MTLResourceStorageModeShared)
-buff2 = device.newBufferWithBytes_length_options_(array2, len(array2.tobytes()), Metal.MTLResourceStorageModeShared)
+# buff1 = device.newBufferWithBytes_length_options_(array1, len(array1.tobytes()), Metal.MTLResourceStorageModeShared)
+# buff2 = device.newBufferWithBytes_length_options_(array2, len(array2.tobytes()), Metal.MTLResourceStorageModeShared)
+buff1 = device.newBufferWithBytesNoCopy_length_options_deallocator_(array1, len(array1.tobytes()), Metal.MTLResourceStorageModeShared, None)
+buff2 = device.newBufferWithBytesNoCopy_length_options_deallocator_(array2, len(array2.tobytes()), Metal.MTLResourceStorageModeShared, None)
 buff3 = device.newBufferWithLength_options_(len(array1.tobytes()), Metal.MTLResourceStorageModeShared)
 
 cmd_buf = q.commandBuffer()
