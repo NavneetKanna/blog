@@ -57,7 +57,7 @@ encoder = cmd_buf.computeCommandEncoder()
 ```
 8. Set the pipeline state and compute kernel function arguments data
 ```python
-encoder.setComputePipelineState_(func_pso)
+encoder.setComputePipelineState_(func_pso[0])
 encoder.setBuffer_offset_atIndex_(buff1, 0, 0)
 encoder.setBuffer_offset_atIndex_(buff2, 0, 1)
 ```
@@ -96,3 +96,102 @@ So to summarise:
 - Encode the command to dispatch the threads
 - End the encoding 
 - Commit the command buffer to the command queue so that it can be executed by the GPU
+
+The full code 
+
+```python
+import Metal
+import time 
+import random
+import array
+
+count = 1000000 
+idx = 990
+
+array1 = [random.randint(1, count) for i in range(count)]
+array1 = array.array('f', array1)
+
+array2 = [random.randint(1, count) for i in range(count)]
+array2 = array.array('f', array2)
+
+print(f"ans: {array1[idx] + array2[idx]}")
+device = Metal.MTLCreateSystemDefaultDevice()
+prg = """
+kernel void addition_compute_function(device const float* inA,
+                       device const float* inB,
+                       device float* result,
+                       uint index [[thread_position_in_grid]])
+{
+    // the for-loop is replaced with a collection of threads, each of which
+    // calls this function.
+    result[index] = inA[index] + inB[index];
+}
+"""
+
+# lib = device.newLibraryWithURL_error_("test.metallib", None)
+options = Metal.MTLCompileOptions.new()
+lib = device.newLibraryWithSource_options_error_(prg, options, None)
+func_name = lib[0].newFunctionWithName_("addition_compute_function")
+
+func_pso = device.newComputePipelineStateWithFunction_error_(func_name, None)
+
+q = device.newCommandQueue()
+
+buff1 = device.newBufferWithBytes_length_options_(array1, len(array1.tobytes()), Metal.MTLResourceStorageModeShared)
+buff2 = device.newBufferWithBytes_length_options_(array2, len(array2.tobytes()), Metal.MTLResourceStorageModeShared)
+buff3 = device.newBufferWithLength_options_(len(array1.tobytes()), Metal.MTLResourceStorageModeShared)
+
+cmd_buf = q.commandBuffer()
+
+encoder = cmd_buf.computeCommandEncoder()
+encoder.setComputePipelineState_(func_pso[0])
+encoder.setBuffer_offset_atIndex_(buff1, 0, 0)
+encoder.setBuffer_offset_atIndex_(buff2, 0, 1)
+encoder.setBuffer_offset_atIndex_(buff3, 0, 2)
+
+grid_size = Metal.MTLSizeMake(len(array1), 1, 1)
+threadGroupSize = func_pso[0].maxTotalThreadsPerThreadgroup()
+if threadGroupSize > len(array1): threadGroupSize = len(array1)
+thread_group_size = Metal.MTLSizeMake(threadGroupSize, 1, 1)
+
+encoder.dispatchThreads_threadsPerThreadgroup_(grid_size, thread_group_size)
+
+encoder.endEncoding()
+
+gpu_start = time.perf_counter()
+cmd_buf.commit()
+cmd_buf.waitUntilCompleted()
+gpu_end = time.perf_counter()
+
+print(f"time to execute on gpu: {gpu_end - gpu_start:.04f}s")
+
+v = buff3.contents().as_buffer(len(array1.tobytes())).cast('f')
+
+cpu_start = time.perf_counter()
+result = [sum(x) for x in zip(array1, array2)]
+cpu_end = time.perf_counter()
+
+print(f"time to execute on cpu: {cpu_end - cpu_start:.04f}s")
+
+print(f"{idx} values are {v[idx]} and {result[idx]}")
+print(f"gpu is {((cpu_end-cpu_start) / (gpu_end-gpu_start)):.4f} times faster")
+
+
+"""
+Using np array
+
+import numpy as np
+
+array1 = np.random.rand(count).astype(np.float32)
+array1_mv = np.require(array1, requirements='C').data
+
+array2 = np.random.rand(count).astype(np.float32)
+array2_mv = np.require(array2, requirements='C').data
+
+buff1 = device.newBufferWithBytes_length_options_(array1_mv, array1.nbytes, Metal.MTLResourceStorageModeShared)
+buff2 = device.newBufferWithBytes_length_options_(array2_mv, array2.nbytes, Metal.MTLResourceStorageModeShared)
+buff3 = device.newBufferWithLength_options_(array1.nbytes, Metal.MTLResourceStorageModeShared)
+
+v = buff3.contents().as_buffer(array1.nbytes).cast('f')
+"""
+```
