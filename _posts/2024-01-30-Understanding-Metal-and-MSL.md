@@ -165,6 +165,7 @@ gpu_end = time.perf_counter()
 
 print(f"time to execute on gpu: {gpu_end - gpu_start:.04f}s")
 
+# In the pyobjc as_buffer() doc I think the wording is wrong, it should be return count bytes and not count elements
 v = buff3.contents().as_buffer(len(array1.tobytes())).cast('f')
 
 cpu_start = time.perf_counter()
