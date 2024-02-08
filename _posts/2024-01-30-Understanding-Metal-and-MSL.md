@@ -65,11 +65,17 @@ The second parameter is offest: an offset of 0 means the command will access the
 9. Specify the grid size (thread count) and the thread group size
 ```python
 grid_size = Metal.MTLSizeMake(arrayLength, 1, 1)
+threadGroupSize = func_pso[0].maxTotalThreadsPerThreadgroup()
+if threadGroupSize > len(array1): threadGroupSize = len(array1)
 thread_group_size = Metal.MTLSizeMake(threadGroupSize, 1, 1)
 ```
 10. Encode the command to dispatch the threads
 ```python
 encoder.dispatchThreads_threadsPerThreadgroup_(grid_size, thread_group_size)
+```
+By specifying the grid size and number of threads per thread group, metal will calculate the right amount (non-uniform as well) of thread groups needed. If you dont want metal to calculate the number of thread groups, you can use 
+```python
+encoder.dispatchThreadgroups_threadsPerThreadgroup_()
 ```
 11. End the encoder, when there are no more commands to encode
 ```python
