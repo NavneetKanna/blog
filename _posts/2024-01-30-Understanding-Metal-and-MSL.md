@@ -103,6 +103,8 @@ So to summarise:
 - End the encoding 
 - Commit the command buffer to the command queue so that it can be executed by the GPU
 
+Command buffer and command encoder objects are lightweight and can be created multiple times, however, Command queues, Data buffers, Compute states, Libraries are expensive and should be resued.
+
 The full code 
 
 ```python
