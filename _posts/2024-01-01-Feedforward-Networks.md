@@ -4,6 +4,10 @@ title: "Part 2: Feedforward Networks"
 date: 2024-01-01
 ---
 
+We all know the general flow of a neural network: inputs are multiplied with the weights and bias to get an output, then we use a loss function to get the error between the prediction and the truth value, finally we backpropagate this error to adjust the weights and bias.
+
+For the forward propagation part, I am assuming you know the basics, but below are some important questions that are import to understand the fundamentals
+
 ## Activation function
 
 ![feedforward_no_activation]({{ "/assets/images/feedforward_no_activation.svg" | prepend: site.baseurl }})
