@@ -6,7 +6,7 @@ date: 2024-01-01
 
 We all know the general flow of a neural network: inputs are multiplied with the weights and bias to get an output, then we use a loss function to get the error between the prediction and the truth value, finally we backpropagate this error to adjust the weights and bias.
 
-For the forward propagation part, I am assuming you know the basics, but below are some important things that are important to understand the fundamentals
+For the forward propagation part, I am assuming you know the basics, however, to grasp it fundamentally, it is important to understand the *why's* of the below topics
 
 ## Activation function
 
