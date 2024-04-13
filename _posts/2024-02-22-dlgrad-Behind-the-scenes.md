@@ -9,3 +9,12 @@ dlgrad is an autograd engine with PyTorch like api that I had built about an yea
 But now, after I have purchased an M2 air with access to a GPU and having an intermediary understanding of [MSL](/_posts/2024-01-30-Understanding-Metal-and-MSL.md), I am ready to re-write this beautiful project again but this time eliminating the usage of numpy, having a METAL support (CUDA in future), and an overall better structure. 
 
 So, lets begin :).
+
+## Architecture
+
+It is pretty evident that if I have to eliminate the use of numpy, I have to create data buffers (contiguous memory) myself, there are two ways of doing this as far as my knowledge goes:
+
+1. Use python Arrays module.
+2. Use ctypes to read shared objects of C files.
+
+Although the former is used to create memory buffers, the biggest drawback is we cannot perform matmul between arrays without the use of numpy, hence it is ruled out, and the only option is the latter. This is good for me, because, I get to code in C (I love C as well) and hence improve my C skills.
