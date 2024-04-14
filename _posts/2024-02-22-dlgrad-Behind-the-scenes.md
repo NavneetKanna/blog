@@ -28,7 +28,10 @@ There are two kinds of ops dlgrad supports:
 2. **ElementwiseOps** are UnaryOps, BinaryOps.
 3. **MatrixOps** perform matrix calculations such as matmul's.
 
-The below diagram shows the call grapgh of how data buffers are created,
+The below diagram shows the call graph of how data buffers are created,
 
 ![bufferops]({{ "/assets/images/bufferops.svg" | prepend: site.baseurl }})
 
+This diagram shows the call graph for the other ops,
+
+![otherops]({{ "/assets/images/otherops.svg" | prepend: site.baseurl }})
