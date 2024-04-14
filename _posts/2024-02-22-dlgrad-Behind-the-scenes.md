@@ -22,3 +22,12 @@ While the former can be used to create memory buffers, the biggest drawback is t
 Intially, I started with C source code files and compiling them to shared libraries. But, I soon realised, if I do it this way then people have to compile the C source code when installing dlgrad. I dont like this, because I believe that a good project should have almost 0 dependencies, and I want dlgrad to be as simple as a pip install. 
 
 So the way I am going to do this is by writing C code inside python, compiling it using clang through subprocess, and then read the shared object using ctypes. This shared object will be present throughout the lifetime of the program and will be automatically deleted once the program ends gracefully.
+
+There are two kinds of ops dlgrad supports:
+2. Elementwise ops 
+
+
+The below diagram shows the call grapgh of how data buffers are created,
+
+![dcops]({{ "/assets/images/dcops.svg" | prepend: site.baseurl }})
+
