@@ -24,10 +24,11 @@ Intially, I started with C source code files and compiling them to shared librar
 So the way I am going to do this is by writing C code inside python, compiling it using clang through subprocess, and then read the shared object using ctypes. This shared object will be present throughout the lifetime of the program and will be automatically deleted once the program ends gracefully.
 
 There are two kinds of ops dlgrad supports:
-2. Elementwise ops 
-
+1. **BufferOps** create data buffers.
+2. **ElementwiseOps** are UnaryOps, BinaryOps.
+3. **MatrixOps** perform matrix calculations such as matmul's.
 
 The below diagram shows the call grapgh of how data buffers are created,
 
-![dcops]({{ "/assets/images/dcops.svg" | prepend: site.baseurl }})
+![bufferops]({{ "/assets/images/bufferops.svg" | prepend: site.baseurl }})
 
