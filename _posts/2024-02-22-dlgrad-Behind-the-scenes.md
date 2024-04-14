@@ -35,3 +35,16 @@ The below diagram shows the call graph of how data buffers are created,
 This diagram shows the call graph for the other ops,
 
 ![otherops]({{ "/assets/images/otherops.svg" | prepend: site.baseurl }})
+
+## Indexing
+
+This is an interesting problem if you create data buffers on your own. Because in C, data is created as contigous 1D array, whereas Tensors are usually n-dim. Hence, a function is needed that converts n-dim indexing to 1D indexing. One thing to note is that, dlgrad follows NCHW data format.
+
+The code can be found [here](https://github.com/NavneetKanna/dlgrad/blob/60c40a06d0d4ce7ef372e6bf124e4e4b5506ef2a/dlgrad/tensor.py#L99). It is actually a very simple solution and beautifully written (proud of myself for this :D). The main part is this [function](https://github.com/NavneetKanna/dlgrad/blob/60c40a06d0d4ce7ef372e6bf124e4e4b5506ef2a/dlgrad/helpers.py#L39)
+
+```python
+def calculate_nchw_offset(n=0, c=0, h=0, w=0, N=0, C=0, H=0): 
+    return (n * N) + (c * C) + (h * H) + w
+```
+
+Another important point to note from the code is that, any indexing of a Tensor is not a new Tensor (or new data buffer), but rather just a different view (different strides, offset, len, shape).
