@@ -47,4 +47,4 @@ def calculate_nchw_offset(n=0, c=0, h=0, w=0, N=0, C=0, H=0):
     return (n * N) + (c * C) + (h * H) + w
 ```
 
-Another important point to note from the code is that, any indexing of a Tensor is not a new Tensor (or new data buffer), but rather just a different view (different strides, offset, len, shape).
+Another important point to note from the code is that, any indexing of a Tensor is not a new Tensor (or a new data buffer), but rather just a view (different strides, offset, len, shape).
