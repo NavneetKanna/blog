@@ -36,6 +36,11 @@ This diagram shows the call graph for the other ops,
 
 ![otherops]({{ "/assets/images/otherops.svg" | prepend: site.baseurl }})
 
+Summary:
+- All data in dlgrad are C arrays.
+- C code is complied and loaded dynamically from python (no separate C source files).
+- Three ops supported: BufferOps, ElemenetwiseOps, MatrixOps.
+
 ## Indexing
 
 This is an interesting problem if you create data buffers on your own. Because in C, data is created as contigous 1D array, whereas Tensors are usually n-dim. Hence, a function is needed that converts n-dim indexing to 1D indexing. One thing to note is that, dlgrad follows NCHW data format.
@@ -47,4 +52,36 @@ def calculate_nchw_offset(n=0, c=0, h=0, w=0, N=0, C=0, H=0):
     return (n * N) + (c * C) + (h * H) + w
 ```
 
+Here, width (*w*) is not multiplied by anything because this dim moves the fastest, in other words, the elements are adjacent to each other.
+
 Another important point to note from the code is that, any indexing of a Tensor is not a new Tensor (or a new data buffer), but rather just a view (different strides, offset, len, shape).
+
+For example, lets assume a (2, 2, 2) Tensor
+
+```python
+a = [
+    [[0.6095, 0.2799],
+    [0.5239, 0.6648]],
+
+    [[0.5869, 0.6684],
+    [0.5006, 0.3380]]
+]
+```
+
+This is how it will be represented in the memory as a 1D array and the dimensions
+
+![offset]({{ "/assets/images/offset.svg" | prepend: site.baseurl }})
+
+```python
+# NOTE: strides = (4, 2, 1)
+
+# Now lets say I want to access a[0]
+# offset = 0*4
+c = 0
+offset = calculate_nchw_offset(c=c, C=strides[0]) 
+
+# a[1, 1]
+# offset = (1*4) + (1*2)
+c, h = 1, 1 
+offset = calculate_nchw_offset(c=c, h=h, C=strides[0], H=strides[1]) # 6
+```
