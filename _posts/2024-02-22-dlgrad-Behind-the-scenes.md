@@ -20,3 +20,5 @@ It is pretty evident that if I have to eliminate the use of numpy, I have to cre
 While the former can be used to create memory buffers, the biggest drawback is that I cannot perform matrix multiplication between arrays without the use of NumPy, ruling it out. Therefore, making the second approach the only option, which is good for me, because, I get to code in C (which I enjoy) and hence improve my C skills.
 
 Intially, I started with C source code files and compiling them to shared libraries. But, I soon realised, if I do it this way then people have to compile the C source code when installing dlgrad. I dont like this, because I believe that a good project should have almost 0 dependencies, and I want dlgrad to be as simple as a pip install. 
+
+So the way I am going to do this is by writing C code inside python, compiling it using clang through subprocess, and then read the shared object using ctypes. This shared object will be present throughout the lifetime of the program and will be automatically deleted once the program ends gracefully.
