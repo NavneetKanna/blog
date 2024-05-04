@@ -9,3 +9,7 @@ This blog post is about me understanding assembly language, and hence the first 
 I thought I would start learning with Arduino UNO R3 which has a 8 bit ATmega328P microcontroller. But I soon realiased that there are no debuggers available which is not good since for someone who wants to learning assembly its important to see the contents of registers, and not have to blink an led to check the output.
 
 Hence, I have decided to start with the classic Intel 8086 microprocessor by using an online [8086 emulator](https://yjdoc2.github.io/8086-emulator-web/).
+
+Before starting to learn assembly, lets understand the specs of 8086
+1. 16 bit microprocessor
+2. little endian
