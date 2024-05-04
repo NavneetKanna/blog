@@ -10,6 +10,12 @@ I thought I would start learning with Arduino UNO R3 which has a 8 bit ATmega328
 
 Hence, I have decided to start with the classic Intel 8086 microprocessor by using an online [8086 emulator](https://yjdoc2.github.io/8086-emulator-web/).
 
-Before starting to learn assembly, lets understand the specs of 8086
-1. 16 bit microprocessor
-2. little endian
+Before starting to learn assembly, lets understand few of the specs of 8086
+1. 16 bit microprocessor.
+2. Little Endian.
+3. 16 bit data bus.
+4. 8 general purpose registers (ax, bx, cx, dx, si, di, bp and sp), each of which is 16 bits wide.
+5. Apart from general purpose registers there are segment (cs, ds, es, ss), special purpose (ip) ans flag registers.
+6. There a total of 14 registers.
+
+## Fundamentals
