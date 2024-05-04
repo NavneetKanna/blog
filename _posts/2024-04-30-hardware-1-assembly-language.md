@@ -19,3 +19,9 @@ Before starting to learn assembly, lets understand few of the specs of 8086
 6. There a total of 14 registers.
 
 ## Fundamentals
+
+**Bits** a boolean value (1 or 0).
+**Bytes** is 8 bits, ranges from (0-255) or (-128-127).
+**Word** 2 bytes or 16 bits.
+**DWORD** 32 bits or 4 bytes.
+**QWORD** 64 bits or 8 bytes.
