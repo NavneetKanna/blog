@@ -26,3 +26,4 @@ Before starting to learn assembly, lets understand few of the specs of 8086
 **DWORD** 32 bits or 4 bytes.
 **QWORD** 64 bits or 8 bytes.
 **Nibble** 4 bits of half a byte.
+**Directives** these are the different sections (for ex: .data, .text, etc) used in assembly programming, [here](https://www.cs.unm.edu/~maccabe/classes/341/labman/node2.html) is a good resource.
