@@ -15,7 +15,7 @@ Before starting to learn assembly, lets understand few of the specs of 8086
 2. Little Endian.
 3. 16 bit data bus.
 4. 8 general purpose registers (ax, bx, cx, dx, si, di, bp and sp), each of which is 16 bits wide.
-5. Apart from general purpose registers there are segment (cs, ds, es, ss), special purpose (ip) ans flag registers.
+5. Apart from general purpose registers there are segment (cs, ds, es, ss), special purpose (ip) and flag registers.
 6. There a total of 14 registers.
 
 ## Fundamentals
@@ -27,3 +27,4 @@ Before starting to learn assembly, lets understand few of the specs of 8086
 **QWORD** 64 bits or 8 bytes.
 **Nibble** 4 bits of half a byte.
 **Directives** these are the different sections (for ex: .data, .text, etc) used in assembly programming, [here](https://www.cs.unm.edu/~maccabe/classes/341/labman/node2.html) is a good resource.
+**Labels** name given to a memory address, see the above link for more details.
