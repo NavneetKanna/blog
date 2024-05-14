@@ -89,7 +89,7 @@ offset = calculate_nchw_offset(c=c, h=h, C=strides[0], H=strides[1]) # 6
 
 ## Weight initialisation 
 
-Pytorch uses kaiming uniform to initialise the weights and hence dlgrad will use that too. Kaiming uniform forumla calculates the bound that is used to generate random uniform numbers within it. The formula is,
+Pytorch uses [kaiming uniform](https://github.com/pytorch/pytorch/blob/37596769d8b42beba104e14d149cebe0dfd75d12/torch/nn/modules/linear.py#L109) to initialise the weights and hence dlgrad will use that too. Kaiming uniform forumla calculates the bound that is used to generate random uniform numbers within. The formula is,
 
 $$ bound = \sqrt{3} \cdot std $$
 
@@ -103,3 +103,5 @@ $$ a = the \ negative \ slope \ of \ the \ rectifier $$
 hence the full equation becomes,
 
 $$ bound = \sqrt{3} \cdot \frac{\sqrt{\frac{2}{(1 + a^2)}}}{\sqrt{fan\_in}} $$
+
+In torch nn.linear, *a* is given the value of $\sqrt{5}$, this [issue](https://github.com/pytorch/pytorch/issues/15314) explains why.
