@@ -6,7 +6,7 @@ date: 2024-02-22
 
 dlgrad is an autograd engine with PyTorch like api that I had built about an year ago (2022), insipired by andreaj karapthy's micrograd and geogre hotz's tinygrad. With dlgrad, you can train MLP's and CNN's, which I was proud to tell. However, upon closer inspection (in 2023), I realized that the design of the project was flawed, and since I didn't have access to a GPU back then, it was designed solely for CPU usage. Additionally, even though I had implemented all the algorithms from scratch, the entire project relied on NumPy for everything.
 
-Now, after purchasing an M2 Air with access to a GPU and gaining an intermediate understanding of [Metal Shading Language (MSL)](/_posts/2024-01-30-Understanding-Metal-and-MSL.md), I am ready to rewrite this beautiful project from the ground up. This time, I aim to eliminate the usage of NumPy, implement support for Metal (and CUDA in the future), and improve the overall structure of the project.
+Now, after purchasing a M2 Air with access to a GPU and gaining an intermediate understanding of [Metal Shading Language (MSL)](/_posts/2024-01-30-Understanding-Metal-and-MSL.md), I am ready to rewrite this beautiful project from the ground up. This time, I aim to eliminate the usage of NumPy, implement support for Metal (and CUDA in the future), and improve the overall structure of the project.
 
 So, lets begin!
 
@@ -85,3 +85,21 @@ offset = calculate_nchw_offset(c=c, C=strides[0])
 c, h = 1, 1 
 offset = calculate_nchw_offset(c=c, h=h, C=strides[0], H=strides[1]) # 6
 ```
+
+
+## Weight initialisation 
+
+Pytorch uses kaiming uniform to initialise the weights and hence dlgrad will use that too. Kaiming uniform forumla calculates the bound that is used to generate random uniform numbers within it. The formula is,
+
+$$ bound = \sqrt{3} \cdot std $$
+
+where,
+
+$$ std = \frac{gain}{\sqrt{fan\_in}} $$
+$$ gain = \sqrt{\frac{2}{(1 + a^2)}} $$
+$$ fan\_in = no \ of \ inputs \ coming \ into \ a \ neuron $$
+$$ a = the \ negative \ slope \ of \ the \ rectifier $$
+
+hence the full equation becomes,
+
+$$ bound = \sqrt{3} \cdot \frac{\sqrt{\frac{2}{(1 + a^2)}}}{\sqrt{fan\_in}} $$
