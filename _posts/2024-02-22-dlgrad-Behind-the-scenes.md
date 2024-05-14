@@ -96,12 +96,12 @@ $$ bound = \sqrt{3} \cdot std $$
 where,
 
 $$ std = \frac{gain}{\sqrt{fan\_in}} $$
-$$ gain = \sqrt{\frac{2}{(1 + a^2)}} $$
+$$ gain = \sqrt{\frac{2}{1 + a^2}} $$
 $$ fan\_in = no \ of \ inputs \ coming \ into \ a \ neuron $$
 $$ a = the \ negative \ slope \ of \ the \ rectifier $$
 
 hence the full equation becomes,
 
-$$ bound = \sqrt{3} \cdot \frac{\sqrt{\frac{2}{(1 + a^2)}}}{\sqrt{fan\_in}} $$
+$$ bound = \sqrt{3} \cdot \frac{\sqrt{\frac{2}{1 + a^2}}}{\sqrt{fan\_in}} $$
 
 In torch nn.linear, *a* is given the value of $\sqrt{5}$, this [issue](https://github.com/pytorch/pytorch/issues/15314) explains why.
