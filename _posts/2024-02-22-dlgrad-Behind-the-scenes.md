@@ -105,3 +105,10 @@ hence the full equation becomes,
 $$ bound = \sqrt{3} \cdot \frac{\sqrt{\frac{2}{1 + a^2}}}{\sqrt{fan\_in}} $$
 
 In torch nn.linear, *a* is given the value of $\sqrt{5}$, this [issue](https://github.com/pytorch/pytorch/issues/15314) explains why.
+
+For example, considering the MNIST dataset, the input layer will have 784 neurons and say the first hidden layer has 64 neurons, hence, $fan\_in = 784$ and $fan\_out = 64$ and assuming $a = \sqrt{5}$, 
+
+$$ bound = 1.732 * \frac{0.577}{28} $$
+$$ bound = 0.035 $$
+
+I have verified the correctness of the value by adding some `print` statements in the [`kaiming_uniform_()`](https://github.com/pytorch/pytorch/blob/470723faea17e05f22001b85c505d2acafc53902/torch/nn/init.py#L457) function. 
