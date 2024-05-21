@@ -112,3 +112,7 @@ $$ bound = 1.732 * \frac{0.577}{28} $$
 $$ bound = 0.035 $$
 
 I have verified the correctness of the value by adding some `print` statements in the [`kaiming_uniform_()`](https://github.com/pytorch/pytorch/blob/470723faea17e05f22001b85c505d2acafc53902/torch/nn/init.py#L457) function. 
+
+## Roadblock
+
+So I hit a huge roadblock, but, I have found a solution. So, after figuring out how to initialise weights (the topic above), I had to change the c function I was using to accept bounds (I was using *rand()* function in c to generate random numbers). However, I knew in the back of my mind that using *rand()* is not a good option and by research as well, so I began researching better or recommened ways to generate random uniform numbers in c. 
