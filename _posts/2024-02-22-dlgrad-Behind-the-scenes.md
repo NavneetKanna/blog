@@ -113,7 +113,7 @@ $$ bound = 0.035 $$
 
 I have verified the correctness of the value by adding some `print` statements in the [`kaiming_uniform_()`](https://github.com/pytorch/pytorch/blob/470723faea17e05f22001b85c505d2acafc53902/torch/nn/init.py#L457) function. 
 
-## Xorshift
+## xoroshiro
 
 I encountered a significant roadblock, but fortunately, I've found a solution. After figuring out how to initialize weights (as discussed in the previous topic), I needed to modify the C function I was using to accept bounds. I had been using the rand() function in C to generate random numbers, but I knew this wasn't the best option, both from my own knowledge and from my research.
 
