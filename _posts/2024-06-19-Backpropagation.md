@@ -31,7 +31,9 @@ Therefore, backpropagation is an algorithm that calculates the gradients of the 
 All that backpropagation does is, it calculates the gradient (the direction and magnitude of the steepest descent), but this gradient needs to be applied to the  
 model parameters to move them towards the minimum of the function. This process is called gradient descent.
 
-
 *Recap*
 
-Ideally, we want to reach the global minimum of the loss function. Now assuming we are in the first epoch (where the weights are initialised randomly) and a forward pass is completed and a loss function is used to calculate the error. Gradients of the loss function are then calculated by performing a backward pass (backpropogation). 
+- Inputs are multiplied by the weigths during the forward pass.
+- Loss function is used to calculate the error.
+- Gradients are calculated using backpropagation alorithm.
+- The weights are adjusted by the taking the negative of the gradient in a step called gradient descent.
