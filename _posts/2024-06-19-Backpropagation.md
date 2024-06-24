@@ -37,3 +37,7 @@ model parameters to move them towards the minimum of the function. This process 
 - Loss function is used to calculate the error.
 - Gradients are calculated using backpropagation alorithm.
 - The weights are adjusted by the taking the negative of the gradient in a step called gradient descent.
+
+### Automatic differentiation 
+
+Autodiff is an efficient way to compute the derivates during the backpropagation process. It uses computational graphs.
