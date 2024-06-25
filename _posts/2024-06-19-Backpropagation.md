@@ -38,6 +38,8 @@ model parameters to move them towards the minimum of the function. This process 
 - Gradients are calculated using backpropagation alorithm.
 - The weights are adjusted by the taking the negative of the gradient in a step called gradient descent.
 
-### Automatic differentiation 
+### Automatic differentiation (AD)
 
-Autodiff is an efficient way to compute the derivates during the backpropagation process. It uses computational graphs.
+There are different ways of computing derivatives, numerical, symbolic and AD. The first two have [disadvantages](https://www.jmlr.org/papers/volume18/17-468/17-468.pdf) of its own and cannot be used in deep learning.
+
+AD is an efficient/algorithmic way to compute the derivates during the backpropagation process. It uses computational graphs.
