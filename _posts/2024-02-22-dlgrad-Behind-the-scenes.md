@@ -122,3 +122,13 @@ I began researching better or recommended ways to generate random uniform number
 Then, I found the Xorshift generator, which has no copyright restrictions and is small and fast. I'm currently using [*xoroshiro64**](https://prng.di.unimi.it), a 32-bit generator (since dlgrad currently only supports fp32). You can find the C code [here](https://prng.di.unimi.it/xoroshiro64star.c).
 
 To convert the output to a float in the range (0, 1), I divide by UINT32_MAX, because the generator produces numbers in the range (0, UINT32_MAX). Finally, to convert the random number to a range (-bound, bound), I use the formula provided [here](https://stackoverflow.com/questions/5294955/how-to-scale-down-a-range-of-numbers-with-a-known-min-and-max-value).
+
+## Broadcasting
+
+The way broadcasting works in dlgrad is that, there are no new tensors (c arrays) created, but rather the way the array is referenced when performing different operations. For example, let us consider addition,
+
+```c
+// (3, 3)
+a = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+
+```
