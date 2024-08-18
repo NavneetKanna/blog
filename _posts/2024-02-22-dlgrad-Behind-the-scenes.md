@@ -166,4 +166,4 @@ output
 | 8 10 12 |
 ```
 
-We notice that the value each of the second array is being used in three additions, or to put it in other words, the value 2 of the output array is being influenced by 3 values (1, 4, 7). In the micrograd [video](https://youtu.be/VMj-3S1tku0?t=4948&si=56-cSRueqds1ljCg) from Andrej Karpathy, we can learn that when a node is influenced by multiple nodes we need to **accumulate** the gradients.
+We notice that the value each of the second array is being used in three additions, or to put it in other words, the value 2 of the output array is being influenced by 3 values (1, 4, 7). In the micrograd [video](https://youtu.be/VMj-3S1tku0?t=4948&si=56-cSRueqds1ljCg) from Andrej Karpathy, we can learn that when a node is influenced by multiple nodes we need to **accumulate** the gradients. Hence, when the upstream gradient arrives at the broadcast node, we need to sum it along the appropriate axis, in this example along the 0 axis and the resulting gradient tensor is of the same shape as the second array.
