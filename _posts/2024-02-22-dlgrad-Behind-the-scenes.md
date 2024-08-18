@@ -144,4 +144,26 @@ I understand this adds a lot of code, but I feel this is better than creating a 
 
 Since this is also an op, during backward pass the gradient needs to flow back through it. There is no much information on how gradients are supposed to flow through this op, but with the help of this [site](http://coldattic.info/post/116/) and LLM's, I was able to figure it out.
 
+Let us consider the previous example of adding along axis 1
 
+```
+| 1 2 3 |   | 1 2 3 |
+| 4 5 6 | + 
+| 7 8 9 |
+
+| 1 2 3 |   
+| 4 5 6 | + | 1 2 3 | 
+| 7 8 9 |
+
+| 1 2 3 |   
+| 4 5 6 | + 
+| 7 8 9 |   | 1 2 3 | 
+
+output 
+
+| 2 4 6   |
+| 5 7 9   |
+| 8 10 12 |
+```
+
+We notice that the value each of the second array is being used in three additions, or to put it in other words, the value 2 of the output array is being influenced by 3 values (1, 4, 7). In the micrograd [video](https://youtu.be/VMj-3S1tku0?t=4948&si=56-cSRueqds1ljCg) from Andrej Karpathy, we can learn that when a node is influenced by multiple nodes we need to **accumulate** the gradients.
