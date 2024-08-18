@@ -127,8 +127,13 @@ To convert the output to a float in the range (0, 1), I divide by UINT32_MAX, be
 
 The way broadcasting works in dlgrad is that, there are no new tensors (c arrays) created, but rather the way the array is referenced when performing different operations. For example, let us consider addition,
 
-```c
-// (3, 3)
+```python
+# (3, 3)
 a = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
-
+# (1, 3)
+b = [[1, 2, 3]]
 ```
+
+To perform addition between these two arrays, the addition along which axis is determined (in this case along axis 1) and the appropriate c function is called.
+
+
