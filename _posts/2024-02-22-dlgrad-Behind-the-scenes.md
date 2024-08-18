@@ -129,11 +129,19 @@ The way broadcasting works in dlgrad is that, there are no new tensors (c arrays
 
 ```python
 # (3, 3)
-a = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+a = Tensor([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
 # (1, 3)
-b = [[1, 2, 3]]
+b = Tensor([[1, 2, 3]])
+
+c = a+b
 ```
 
 To perform addition between these two arrays, the addition along which axis is determined (in this case along axis 1) and the appropriate c function is called.
+
+The algorithm varies for each op and each axis. The c functions can be found [here](https://github.com/NavneetKanna/dlgrad/blob/main/dlgrad/c_code.py).
+
+I understand this adds a lot of code, but I feel this is better than creating a new Tensor (additional memory and time).
+
+Since this is also an op, during backward pass the gradient needs to flow back through it. There is no much information on how gradients are supposed to flow through this op, but with the help of this [site](http://coldattic.info/post/116/) and LLM's, I was able to figure it out.
 
 
