@@ -6,7 +6,7 @@ date: 2024-02-22
 
 ##  History
 
-<details>
+<!-- <details> -->
 <summary> A brief timeline of dlgrad </summary>
 
 - I started this project in 2022 with the intention of learning the fundamentals of deep learning. The initial version worked perfectly fine but was just a numpy wrapper.
@@ -20,5 +20,5 @@ date: 2024-02-22
     - **Don't complicate things**
     - **Before starting out on a project, layout a plan, figure out how you are going to do things beforehand, so that in the future, after putting so much effort on something, it should not come to a hault, because, you didnt think it through enough**.
 
-</details>
+<!-- </details> -->
 
