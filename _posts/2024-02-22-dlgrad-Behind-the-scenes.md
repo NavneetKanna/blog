@@ -36,6 +36,35 @@ markdown: kramdown
 
 ## Broadcasting
 
-dlgrad also supports broadcasting. Since all the Tensors irrespective of their shapes, are stored as 1D arrays, it took me a couple of days to figure out the algorithm. 
+dlgrad also supports broadcasting. Since all the Tensors irrespective of their shapes, are stored as 1D arrays, it took me a couple of days to figure out the algorithm, which is shown below
 
-Lets say we have two Tensor's x and y. Let x be of shape (4, 3, 2) and y be the *smaller* Tensor, that should get broadcasted. 
+```c
+// for 3D Tensor
+int get_y_idx(int dim1, int dim2, int dim3, int *yshape, int *ystride) {
+    int idx = 0;
+
+    if (yshape[0] != 1) {
+        idx += dim1*ystride[0];
+    } 
+
+    if (yshape[1] != 1) {
+        idx += dim2*ystride[1];
+    }
+
+    if (yshape[2] != 1) {
+        idx += dim3*ystride[2];
+    }
+
+    return idx;
+}
+```
+
+So, right now the *dlgrad* supports upto 4D, and the algorithm is slightly different for each dimension, but I will try to see if this can be done as one generic function in the future.
+
+Now lets say we have two Tensor's x and y. Let x be of shape (4, 3, 2) and y be the *smaller* Tensor, that should be broadcasted.
+
+Case 1:
+
+y is of shape (3, 1)
+
+- First, the shape gets [padded with 1 to match the dimensions](https://data-apis.org/array-api/latest/API_specification/broadcasting.html), 
