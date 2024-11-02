@@ -27,3 +27,15 @@ markdown: kramdown
 </ul>
 </details>
 
+
+## dlgrad Stack
+
+(insert fig)
+
+- For the CPU backend, it uses C for creating the Tensors and performing all the ops. Uses [cffi](https://cffi.readthedocs.io/en/stable/) to compile all the C source code on the user's machine when installing through pip.
+
+## Broadcasting
+
+dlgrad also supports broadcasting. Since all the Tensors irrespective of their shapes, are stored as 1D arrays, it took me a couple of days to figure out the algorithm. 
+
+Lets say we have two Tensor's x and y. Let x be of shape (4, 3, 2) and y be the *smaller* Tensor, that should get broadcasted. 
