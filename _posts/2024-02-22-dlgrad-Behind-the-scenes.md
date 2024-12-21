@@ -119,3 +119,55 @@ for (int i=0; i<shape[1]; i++) { // rows
 // The main thing to look at is the innermost loop k, it is pretty self-explanatory what the algorithm is doing 
 // by comparing the k values with the array shown above.
 ```
+
+case sum(dim=1)
+```c
+// This is the main function 
+
+float *sum_3d_dim1(float *arr, int numel, int *shape, int *strides) {
+    float *out = malloc(sizeof(float)*numel);
+    int idx = 0;
+    for(int i=0; i<shape[0]*strides[0]; i+=strides[0]) {
+        for (int j=0; j<shape[2]; j++) { // cols
+            float sum = 0.0;
+            for(int k=i+j; k<(i+strides[0]); k+=strides[1]) { // rows
+                sum += arr[k];
+            }
+            out[idx] = sum;
+            idx += 1;
+        }
+    }
+
+    return out;
+}
+
+/*
+    i=0 j=0 k=0
+    i=0 j=0 k=2
+    i=0 j=0 k=4
+    i=0 j=1 k=1
+    i=0 j=1 k=3
+    i=0 j=1 k=5
+    i=6 j=0 k=6
+    i=6 j=0 k=8
+    i=6 j=0 k=10
+    i=6 j=1 k=7
+    i=6 j=1 k=9
+    i=6 j=1 k=11
+    i=12 j=0 k=12
+    i=12 j=0 k=14
+    i=12 j=0 k=16
+    i=12 j=1 k=13
+    i=12 j=1 k=15
+    i=12 j=1 k=17
+    i=18 j=0 k=18
+    i=18 j=0 k=20
+    i=18 j=0 k=22
+    i=18 j=1 k=19
+    i=18 j=1 k=21
+    i=18 j=1 k=23
+*/
+
+// Again looking at the innermost loop k, it is pretty self-explanatory what the algorithm is doing 
+// by comparing the k values with the array shown above.
+```
