@@ -171,3 +171,50 @@ float *sum_3d_dim1(float *arr, int numel, int *shape, int *strides) {
 // Again looking at the innermost loop k, it is pretty self-explanatory what the algorithm is doing 
 // by comparing the k values with the array shown above.
 ```
+
+case sum(dim=2)
+```c
+// This is the main function 
+
+for(int i=0; i<shape[0]*strides[0]; i+=strides[0]) {
+    for (int j=0; j<shape[1]; j++) { // rows
+        float sum = 0.0;
+        for (int k=0; k<shape[2]; k++) { // cols
+            int aidx = i + j*strides[1] + k*strides[2];
+            sum += arr[aidx];
+        }
+        out[idx] = sum;
+        idx += 1;
+    }
+}
+
+/*
+    aidx=0
+    aidx=1
+    aidx=2
+    aidx=3
+    aidx=4
+    aidx=5
+    aidx=6
+    aidx=7
+    aidx=8
+    aidx=9
+    aidx=10
+    aidx=11
+    aidx=12
+    aidx=13
+    aidx=14
+    aidx=15
+    aidx=16
+    aidx=17
+    aidx=18
+    aidx=19
+    aidx=20
+    aidx=21
+    aidx=22
+    aidx=23
+*/
+
+// Again looking at the aidx values, it is pretty self-explanatory what the algorithm is doing 
+// by comparing it with the array shown above.
+```
