@@ -115,8 +115,7 @@ for (int i=0; i<shape[1]; i++) { // rows
     idx=23
 */
 
-// The main thing to look at is the innermost loop k, it is pretty self-explanatory what the algorithm is doing 
-// by comparing the k values with the array shown above.
+// It is pretty self-explanatory what the algorithm is doing by comparing the idx values with the array shown above.
 ```
 
 case sum(dim=1)
@@ -126,94 +125,90 @@ case sum(dim=1)
 float *sum_3d_dim1(float *arr, int numel, int *shape, int *strides) {
     float *out = malloc(sizeof(float)*numel);
     int idx = 0;
-    for(int i=0; i<shape[0]*strides[0]; i+=strides[0]) {
-        for (int j=0; j<shape[2]; j++) { // cols
+    for (int i = 0; i < shape[0]; i++) {
+        for (int j = 0; j < shape[2]; j++) { // cols
             float sum = 0.0;
-            for(int k=i+j; k<(i+strides[0]); k+=strides[1]) { // rows
-                sum += arr[k];
+            for (int k = 0; k < shape[1]; k++) { // rows
+                sum += arr[i * strides[0] + k * strides[1] + j * strides[2]];
             }
-            out[idx] = sum;
-            idx += 1;
+            out[idx++] = sum;
         }
     }
+
 
     return out;
 }
 
 /*
-    i=0 j=0 k=0
-    i=0 j=0 k=2
-    i=0 j=0 k=4
-    i=0 j=1 k=1
-    i=0 j=1 k=3
-    i=0 j=1 k=5
-    i=6 j=0 k=6
-    i=6 j=0 k=8
-    i=6 j=0 k=10
-    i=6 j=1 k=7
-    i=6 j=1 k=9
-    i=6 j=1 k=11
-    i=12 j=0 k=12
-    i=12 j=0 k=14
-    i=12 j=0 k=16
-    i=12 j=1 k=13
-    i=12 j=1 k=15
-    i=12 j=1 k=17
-    i=18 j=0 k=18
-    i=18 j=0 k=20
-    i=18 j=0 k=22
-    i=18 j=1 k=19
-    i=18 j=1 k=21
-    i=18 j=1 k=23
+    idx=0
+    idx=2
+    idx=4
+    idx=1
+    idx=3
+    idx=5
+    idx=6
+    idx=8
+    idx=10
+    idx=7
+    idx=9
+    idx=11
+    idx=12
+    idx=14
+    idx=16
+    idx=13
+    idx=15
+    idx=17
+    idx=18
+    idx=20
+    idx=22
+    idx=19
+    idx=21
+    idx=23
 */
 
-// Again looking at the innermost loop k, it is pretty self-explanatory what the algorithm is doing 
-// by comparing the k values with the array shown above.
+// It is pretty self-explanatory what the algorithm is doing by comparing the idx values with the array shown above.
 ```
 
 case sum(dim=2)
 ```c
 // This is the main function 
 
-for(int i=0; i<shape[0]*strides[0]; i+=strides[0]) {
-    for (int j=0; j<shape[1]; j++) { // rows
+for (int i = 0; i < shape[0]; i++) {
+    for (int j = 0; j < shape[1]; j++) { // rows
         float sum = 0.0;
-        for (int k=0; k<shape[2]; k++) { // cols
-            int aidx = i + j*strides[1] + k*strides[2];
-            sum += arr[aidx];
+        for (int k = 0; k < shape[2]; k++) { // cols
+            sum += arr[i * strides[0] + j * strides[1] + k * strides[2]];
         }
-        out[idx] = sum;
-        idx += 1;
+        out[idx++] = sum;
     }
 }
 
 /*
-    aidx=0
-    aidx=1
-    aidx=2
-    aidx=3
-    aidx=4
-    aidx=5
-    aidx=6
-    aidx=7
-    aidx=8
-    aidx=9
-    aidx=10
-    aidx=11
-    aidx=12
-    aidx=13
-    aidx=14
-    aidx=15
-    aidx=16
-    aidx=17
-    aidx=18
-    aidx=19
-    aidx=20
-    aidx=21
-    aidx=22
-    aidx=23
+    idx=0
+    idx=1
+    idx=2
+    idx=3
+    idx=4
+    idx=5
+    idx=6
+    idx=7
+    idx=8
+    idx=9
+    idx=10
+    idx=11
+    idx=12
+    idx=13
+    idx=14
+    idx=15
+    idx=16
+    idx=17
+    idx=18
+    idx=19
+    idx=20
+    idx=21
+    idx=22
+    idx=23
 */
 
-// Again looking at the aidx values, it is pretty self-explanatory what the algorithm is doing 
-// by comparing it with the array shown above.
+// It is pretty self-explanatory what the algorithm is doing by comparing the idx values with the array shown above.
 ```
