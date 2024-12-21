@@ -43,4 +43,35 @@ dlgrad also supports broadcasting. It does <i><b>not</b></i> create any addition
 
 ### Sum
 
-I have created separate functions for each dimension of the tensor and for each axis, not sure if this is efficient but it does the trick. It was easier for me to figure the algorithm for each case than finding a generic one which applies for all cases.
+I have created separate functions for each dimension of the tensor and for each axis, not sure if this is efficient but it does the trick. It was easier for me to figure the algorithm for each case than finding a generic one which applies for all cases. The source code can be found [here](https://github.com/NavneetKanna/dlgrad/blob/main/dlgrad/src/c/sum.c).
+
+3D Tensor
+
+case sum(dim=0)
+
+Lets assumse a Tensor of shape (4, 3, 2)
+
+```c
+// The numbers show the indexes of the Tensor
+
+[[[ 0,  1],
+  [ 2,  3],
+  [ 4,  5]],
+
+ [[ 6,  7],
+  [ 8,  9],
+  [10, 11]],
+
+ [[12, 13],
+  [14, 15],
+  [16, 17]],
+
+ [[18, 19],
+  [20, 21],
+  [22, 23]]]
+```
+
+```c
+// This is the main function 
+
+```
