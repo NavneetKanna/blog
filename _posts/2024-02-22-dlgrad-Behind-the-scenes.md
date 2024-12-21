@@ -79,41 +79,40 @@ case sum(dim=0)
 for (int i=0; i<shape[1]; i++) { // rows
     for (int j=0; j<shape[2]; j++) { // cols
         float sum = 0.0;
-        for (int k=i*strides[1]+j; k<numel*shape[0]; k+=strides[0]) {
-            sum += arr[k];
+        for (int k = 0; k < shape[0]; k++) {
+            sum += arr[k * strides[0] + i * strides[1] + j * strides[2]];
         }
-        out[idx] = sum;
-        idx += 1;
+        out[idx++] = sum;
     }
 }
 
 // Things will be easier if we print out the indexes on every looop
 
 /*
-    i=0 j=0 k=0
-    i=0 j=0 k=6
-    i=0 j=0 k=12
-    i=0 j=0 k=18
-    i=0 j=1 k=1
-    i=0 j=1 k=7
-    i=0 j=1 k=13
-    i=0 j=1 k=19
-    i=1 j=0 k=2
-    i=1 j=0 k=8
-    i=1 j=0 k=14
-    i=1 j=0 k=20
-    i=1 j=1 k=3
-    i=1 j=1 k=9
-    i=1 j=1 k=15
-    i=1 j=1 k=21
-    i=2 j=0 k=4
-    i=2 j=0 k=10
-    i=2 j=0 k=16
-    i=2 j=0 k=22
-    i=2 j=1 k=5
-    i=2 j=1 k=11
-    i=2 j=1 k=17
-    i=2 j=1 k=23
+    idx=0
+    idx=6
+    idx=12
+    idx=18
+    idx=1
+    idx=7
+    idx=13
+    idx=19
+    idx=2
+    idx=8
+    idx=14
+    idx=20
+    idx=3
+    idx=9
+    idx=15
+    idx=21
+    idx=4
+    idx=10
+    idx=16
+    idx=22
+    idx=5
+    idx=11
+    idx=17
+    idx=23
 */
 
 // The main thing to look at is the innermost loop k, it is pretty self-explanatory what the algorithm is doing 
