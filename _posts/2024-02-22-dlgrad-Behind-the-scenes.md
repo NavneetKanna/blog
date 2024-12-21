@@ -37,3 +37,10 @@ markdown: kramdown
 ## Broadcasting
 
 dlgrad also supports broadcasting. It does <i><b>not</b></i> create any additional copies or take extra memory for this operation. Since all the Tensors irrespective of their shapes, are stored as 1D arrays, it took me a couple of days to figure out the algorithm, which can be read in the ops [c src files](https://github.com/NavneetKanna/dlgrad/tree/main/dlgrad/src/c), such as add or matmul.
+
+
+## Explanation of algorithims
+
+### Sum
+
+I have created separate functions for each dimension of the tensor and for each axis, not sure if this is efficient but it does the trick. It was easier for me to figure the algorithm for each case than finding a generic one which applies for all cases.
