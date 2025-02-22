@@ -52,7 +52,7 @@ We all know the general flow of a neural network: inputs are multiplied with the
 
 For the forward propagation part, I am assuming you know the basics, however, to grasp it fundamentally, it is important to understand the *why's* of the below topics
 
-## Activation function
+### Activation function
 
 ![feedforward_no_activation]({{ "/assets/images/feedforward_no_activation.svg" | prepend: site.baseurl }})
 
@@ -68,7 +68,7 @@ o  = (w7*z3 + w8*z4) + b
 
 The final output is just a linear weighted sum of the form  *y = mx + b*. This is because a combination of linear functions is a linear function itself, which is just a straight line, and hence the model is not really useful if it has to learn a funtion where there is a non-linear (other than a straight line) mapping between the inputs and outputs, which is for most of the real world cases. 
 
-## Bias 
+### Bias 
 
 Again lets consider the formula without bias
 
@@ -77,3 +77,45 @@ z1 = w1*x1
 ```
 
 This is of the form y = mx, this is a straight line through the *origin*, without the bias, the activation function would be restricted to pass through the origin. Hence, by using bias we can shift the activation function which is important.
+
+## Backpropagation
+
+Okay, let's recap. We have some inputs that propagate forward through hidden layers, getting multiplied by weights and having biases added along the way, until they finally reach the output layer. 
+
+### Loss Function
+
+The loss function is used to tell how well the model is performing and it is this function that we are going to minimise during training.
+
+### Backpropagation or Gradient Descent or Automatic Differentiation ? 
+
+#### Backpropogation
+
+Backpropagation is the process of calculating the gradients of a loss function with respect to the weights.
+
+*Derivative and gradient*
+
+Derivative of a function tells us how to change inputs to the function in a way that increases or decreases the output of the function, so we can get closer to the minimum or maximum of the function [source](https://machinelearningmastery.com/gradient-in-machine-learning/).
+
+Basically, the derivative of a function at a point tells us the direction of the steepest ascent, and taking the negative of that value will give the direction of the steepest descent, which is what we want. 
+
+A gradient is the derivative of a multivariable function, which a loss function is.
+
+Therefore, backpropagation is an algorithm that calculates the gradients of the loss function.
+
+#### Gradient Descent
+
+All that backpropagation does is, it calculates the gradient (the direction and magnitude of the steepest descent), but this gradient needs to be applied to the  
+model parameters to move them towards the minimum of the function. This process is called gradient descent.
+
+*Recap*
+
+- Inputs are multiplied by the weigths during the forward pass.
+- Loss function is used to calculate the error.
+- Gradients are calculated using backpropagation alorithm.
+- The weights are adjusted by the taking the negative of the gradient in a step called gradient descent.
+
+### Automatic differentiation (AD)
+
+There are different ways of computing derivatives, numerical, symbolic and AD. The first two have [disadvantages](https://www.jmlr.org/papers/volume18/17-468/17-468.pdf) of its own and cannot be used in deep learning.
+
+AD is an efficient/algorithmic way to compute the derivates during the backpropagation process. It uses computational graphs.
