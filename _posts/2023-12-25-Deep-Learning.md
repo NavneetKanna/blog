@@ -4,7 +4,7 @@ title: "Deep Learning"
 date: 2023-12-25
 ---
 
-Before delving into the realms of deep learning, it's essential to understand its fundamental aspects: What is it? What problems does it aim to solve? 
+Before delving into the realm of deep learning, it's essential to understand its fundamental aspects: What is it, and what problems does it aim to solve?
 
 ## What is Deep Learning?
 
@@ -12,11 +12,9 @@ Deep learning can be defined in two ways: verbally and mathematically.
 
 ### Verbal Definition
 
-To put it simply,
+Simply put, deep learning is the study of enabling computers or algorithms to learn from experience without being explicitly programmed.
 
-> It is the study of enabling computers/algorithms to learn from experience without explicit programming.
-
-Let's take for example writing an algorithm to predict handwritten digits. If we were to manually write an algorithm, there would be a lot of if else statements:
+Consider, for example, writing an algorithm to predict handwritten digits. If we were to manually write such an algorithm, we might rely on many if-else statements:
 
 ```c
 if (there is a curve on the top) {
@@ -28,35 +26,31 @@ else if (there are two lines) {
 }
 ```
 
-This is just pseudo code, imagine writing the actual algorithm. There should be a much better, efficient and intelligent way of doing this, which is, of course, deep learning. 
+This is just pseudocode—imagine having to write a complete algorithm like this! There must be a much better, more efficient, and more intelligent way of doing this. That’s where deep learning comes in.
 
-Given sufficient data for training, DL algorithms can learn the underlying patterns and be able to generalise to new data. So for example, the algorithm learns the pattern that if there are two curves on top of each other, then it is most likely an eight, and so on. And now given any new handwriting of eight that it has not seen, it should be able to predict the correct number.
+Given sufficient training data, deep learning algorithms can learn underlying patterns and generalize to new data. For example, the algorithm might learn that if there are two curves on top of each other, the digit is most likely an eight. Therefore, even if it encounters a new handwritten eight, it should be able to predict the correct digit.
 
 ### Mathematical Definition
 
-The main idea is, a neural network tries to approximate a function. Given a dataset of inputs and outputs, we assume that there was some underlying function that produced the output values given the input values and its the goal of a neural network to approximate this function as close as possible.
+The main idea is that a neural network tries to approximate a function. Given a dataset of inputs and outputs, we assume there is an underlying function that produces the output values from the inputs. The goal of the neural network is to approximate this function as closely as possible.
 
-Given some function $$ y = f^*(x) $$ a neural network defines a mapping $$ y = f(x) $$ which is a close approximation to $$ f^* $$.
+Given some function $$ y = f^*(x) $$ a neural network defines a mapping $$ y = f(x) $$ which is a close approximation to $$ f^*(x) $$.
 
-The branch of mathematics related to this is called Function approximation. In the mathematical theory of artificial neural networks, there is a theorem called Universal approximation theorem, which states that
+This falls under the branch of mathematics known as function approximation. In fact, the Universal Approximation Theorem states that a neural network with an output layer and at least one hidden layer that uses a non-linear activation function can approximate any function. In other words, neural networks are universal approximators—they can be used to approximate virtually any function.
 
-> A neural network comprising of an output layer and at least one hidden layer with an activation function can approximate any function.
-
-An important point to note here is that, neural networks are universal approximators, ie, they can be used to approximate any kind of function.
-
-So, now we know, what is machine learning and what problem does deep learning solve. With the basics understood, let us now move ahead with understanding forward propogation.
+Now that we understand what deep learning is and what problems it solves, let’s move on to understanding forward propagation.
 
 ## Forward Propogation 
 
-We all know the general flow of a neural network: inputs are multiplied with the weights and bias to get an output, then we use a loss function to get the error between the prediction and the true value, finally we backpropagate this error to adjust the weights and bias.
+We all know the general flow of a neural network: inputs are multiplied by weights (and have biases added) to produce an output; then, a loss function measures the error between the prediction and the true value; finally, we backpropagate this error to adjust the weights and biases.
 
-For the forward propagation part, I am assuming you know the basics, however, to grasp it fundamentally, it is important to understand the *why's* of the below topics
+For the forward propagation part, I assume you already know the basics. However, to truly grasp the concept, it’s important to understand the rationale behind the following topics.
 
 ### Activation function
 
 ![feedforward_no_activation]({{ "/assets/images/feedforward_no_activation.svg" | prepend: site.baseurl }})
 
-If we dont have activations functions, or in other words, a non-linear function, the forward propagation would like this 
+If we don't include activation (non-linear) functions, forward propagation would look like this:
 
 ```math
 z1 = w1*x1 + b 
@@ -66,25 +60,25 @@ z4 = (w4*z1 + w6*z2) + b
 o  = (w7*z3 + w8*z4) + b 
 ```
 
-The final output is just a linear weighted sum of the form  *y = mx + b*. This is because a combination of linear functions is a linear function itself, which is just a straight line, and hence the model is not really useful if it has to learn a funtion where there is a non-linear (other than a straight line) mapping between the inputs and outputs, which is for most of the real world cases. 
+The final output is just a linear weighted sum in the form *y = mx + b*. Because a combination of linear functions remains linear—a straight line—the model would not be useful for learning complex, non-linear mappings between inputs and outputs, which are common in real-world scenarios.
 
 ### Bias 
 
-Again lets consider the formula without bias
+Let’s consider the formula without a bias term:
 
 ```math
 z1 = w1*x1
 ```
 
-This is of the form y = mx, this is a straight line through the *origin*, without the bias, the activation function would be restricted to pass through the origin. Hence, by using bias we can shift the activation function which is important.
+This is of the form y = mx, which is a straight line through the origin. Without bias, the activation function is restricted to passing through the origin. By using a bias term, we can shift the activation function, which is crucial for the model to learn more flexible representations.
 
 ## Backpropagation
 
-Okay, let's recap. We have some inputs that propagate forward through hidden layers, getting multiplied by weights and having biases added along the way, until they finally reach the output layer. 
+Let’s recap. Inputs propagate forward through the hidden layers—being multiplied by weights and having biases added along the way—until they reach the output layer. 
 
 ### Loss Function
 
-The loss function is used to tell how well the model is performing and it is this function that we are going to minimise during training.
+The loss function measures how well the model is performing, and it is this function that we aim to minimize during training.
 
 ### Backpropagation or Gradient Descent or Automatic Differentiation ? 
 
@@ -94,28 +88,21 @@ Backpropagation is the process of calculating the gradients of a loss function w
 
 *Derivative and gradient*
 
-Derivative of a function tells us how to change inputs to the function in a way that increases or decreases the output of the function, so we can get closer to the minimum or maximum of the function [source](https://machinelearningmastery.com/gradient-in-machine-learning/).
+The derivative of a function tells us how to change the input in order to increase or decrease the output, which helps us move closer to the function's minimum or maximum [source](https://machinelearningmastery.com/gradient-in-machine-learning/). In essence, the derivative at a point indicates the direction of steepest ascent; taking its negative gives the direction of steepest descent, which is what we want.
 
-Basically, the derivative of a function at a point tells us the direction of the steepest ascent, and taking the negative of that value will give the direction of the steepest descent, which is what we want. 
-
-A gradient is the derivative of a multivariable function, which a loss function is.
-
-Therefore, backpropagation is an algorithm that calculates the gradients of the loss function.
+A gradient is simply the derivative of a multivariable function such as a loss function and is represented as a vector of partial derivatives. Thus, backpropagation is the algorithm that calculates these gradients.
 
 #### Gradient Descent
 
-All that backpropagation does is, it calculates the gradient (the direction and magnitude of the steepest descent), but this gradient needs to be applied to the  
-model parameters to move them towards the minimum of the function. This process is called gradient descent.
+While backpropagation calculates the gradient (i.e., the direction and magnitude of steepest descent), gradient descent is the process of applying that gradient to the model parameters to move them toward the minimum of the loss function.
 
 *Recap*
 
-- Inputs are multiplied by the weigths during the forward pass.
-- Loss function is used to calculate the error.
-- Gradients are calculated using backpropagation alorithm.
-- The weights are adjusted by the taking the negative of the gradient in a step called gradient descent.
+- Forward Pass: Inputs are multiplied by the weights.
+- Loss Calculation: The loss function measures the error.
+- Backpropagation: Gradients are computed using the backpropagation algorithm.
+- Parameter Update: The weights are updated by subtracting the gradient in a process called gradient descent.
 
 ### Automatic differentiation (AD)
 
-There are different ways of computing derivatives, numerical, symbolic and AD. The first two have [disadvantages](https://www.jmlr.org/papers/volume18/17-468/17-468.pdf) of its own and cannot be used in deep learning.
-
-AD is an efficient/algorithmic way to compute the derivates during the backpropagation process. It uses computational graphs.
+There are several methods for computing derivatives: numerical differentiation, symbolic differentiation, and automatic differentiation (AD). The first two have disadvantages that make them less suitable for deep learning [source](https://www.jmlr.org/papers/volume18/17-468/17-468.pdf). AD is an efficient, algorithmic way to compute derivatives during backpropagation, utilizing computational graphs to manage the calculations.
