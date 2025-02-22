@@ -80,7 +80,7 @@ Let’s recap. Inputs propagate forward through the hidden layers—being multip
 
 The loss function measures how well the model is performing, and it is this function that we aim to minimize during training.
 
-### Backpropagation or Gradient Descent or Automatic Differentiation ? 
+#### Backpropagation or Gradient Descent or Automatic Differentiation ? 
 
 #### Backpropogation
 
