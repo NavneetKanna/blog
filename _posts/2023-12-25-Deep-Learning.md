@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Part 1:  What is machine learning ?"
+title: "Deep Learning"
 date: 2023-12-25
 ---
 
