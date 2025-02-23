@@ -36,7 +36,7 @@ markdown: kramdown
 
 ## Broadcasting
 
-dlgrad also supports broadcasting. It does <i><b>not</b></i> create any additional copies or take extra memory for this operation. Since all the Tensors irrespective of their shapes, are stored as 1D arrays, it took me a couple of days to figure out the algorithm, which can be read in the ops [c src files](https://github.com/NavneetKanna/dlgrad/tree/main/dlgrad/src/c), such as add or matmul.
+dlgrad also supports broadcasting. It does <i><b>not</b></i> create any additional copies or take extra memory for this operation. Since all the Tensors irrespective of their shapes, are stored as 1D arrays, it took me quite some time to figure out the algorithm. The code can be found [here](https://github.com/NavneetKanna/dlgrad/tree/main/dlgrad/src/c).
 
 
 ## Explanation of algorithims
