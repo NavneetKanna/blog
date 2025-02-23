@@ -43,7 +43,7 @@ dlgrad also supports broadcasting. It does <i><b>not</b></i> create any addition
 
 ### Binary ops
 
-For 2D, the c function is
+For 2D, the C function is
 
 ```c
 // Handles all broadcasting shapes
@@ -110,6 +110,52 @@ The y_idx is simple *i* or *j* based on which dimension broadcasting has to be d
 // And y_idx is y_idx1*stride[0].
 
 // x_idx is always row*xstrides[0] + col*xstrides[1]
+```
+
+The same logic applies to 3D tensors as well.
+
+### Sum
+
+For 2D, the C function is 
+
+```c
+void sum_2d(float *x, float *out, int *xshape, int *xstride, int outnumel, int dim)
+{
+    int out_idx = 0;
+    int x_idx = 0;
+    
+    int nrows = xshape[0];
+    int ncols = xshape[1];
+    
+    int row_stride = xstride[0];
+    int col_stride = xstride[1];
+    
+    for (int row=0; row<nrows; row++) {
+        for (int col=0; col<ncols; col++) {
+            x_idx = row*row_stride + col*col_stride;
+            switch (dim) {
+                case 0:
+                    out_idx = col;
+                    out[out_idx] += x[x_idx];
+                    break;
+                case 1:
+                    out_idx = row;
+                    out[out_idx] += x[x_idx];
+                    break;
+            }
+        }
+    }
+}
+```
+
+The algorithm is pretty simple, 
+
+```c
+// If we have to sum along dimension 0, then out_idx = col (0, 1, 2), and for the second row, it is again (0, 1, 2) and we increment the value out[out_idx].
+// Hence we sum along rows.
+
+// If we have to sum along dimension 1, then out_idx = row (0, 1), and for every col, we increment the value out[out_idx]. 
+// Hence we sum along cols.
 ```
 
 The same logic applies to 3D tensors as well.
