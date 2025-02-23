@@ -41,174 +41,75 @@ dlgrad also supports broadcasting. It does <i><b>not</b></i> create any addition
 
 ## Explanation of algorithims
 
-### Sum
+### Binary ops
 
-I have created separate functions for each dimension of the tensor and for each axis, not sure if this is efficient but it does the trick. It was easier for me to figure the algorithm for each case than finding a generic one which applies for all cases. The source code can be found [here](https://github.com/NavneetKanna/dlgrad/blob/main/dlgrad/src/c/sum.c).
-
-3D Tensor
-
-Lets assumse a Tensor of shape (4, 3, 2)
+For 2D, the c function is
 
 ```c
-// The numbers show the indexes of the Tensor
+// Handles all broadcasting shapes
+void op_2d(float *x, float *y, float *out, int *xshape, int *xstrides, int *yshape, int *ystrides, int op)
+{
+    int x_idx = 0;
+    int y_idx = 0;
+    int y_idx2 = 0;
+    int y_idx1 = 0;
 
-[[[ 0,  1],
-  [ 2,  3],
-  [ 4,  5]],
+    for (int i=0; i<xshape[0]; i++) {
+        y_idx1 = (xshape[0] == yshape[0]) ? i : 0;
+        for (int j=0; j<xshape[1]; j++) {
+            y_idx2 = (xshape[1] == yshape[1]) ? j : 0;
 
- [[ 6,  7],
-  [ 8,  9],
-  [10, 11]],
-
- [[12, 13],
-  [14, 15],
-  [16, 17]],
-
- [[18, 19],
-  [20, 21],
-  [22, 23]]]
-
-// shape = (4, 3, 2)
-// stride = (6, 2, 1)
-```
-
-case sum(dim=0)
-```c
-// This is the main function 
-
-for (int i=0; i<shape[1]; i++) { // rows
-    for (int j=0; j<shape[2]; j++) { // cols
-        float sum = 0.0;
-        for (int k = 0; k < shape[0]; k++) {
-            sum += arr[k * strides[0] + i * strides[1] + j * strides[2]];
-        }
-        out[idx++] = sum;
-    }
-}
-
-// Things will be easier if we print out the indexes on every looop
-
-/*
-    idx=0
-    idx=6
-    idx=12
-    idx=18
-    idx=1
-    idx=7
-    idx=13
-    idx=19
-    idx=2
-    idx=8
-    idx=14
-    idx=20
-    idx=3
-    idx=9
-    idx=15
-    idx=21
-    idx=4
-    idx=10
-    idx=16
-    idx=22
-    idx=5
-    idx=11
-    idx=17
-    idx=23
-*/
-
-// It is pretty self-explanatory what the algorithm is doing by comparing the idx values with the array shown above.
-```
-
-case sum(dim=1)
-```c
-// This is the main function 
-
-float *sum_3d_dim1(float *arr, int numel, int *shape, int *strides) {
-    float *out = malloc(sizeof(float)*numel);
-    int idx = 0;
-    for (int i = 0; i < shape[0]; i++) {
-        for (int j = 0; j < shape[2]; j++) { // cols
-            float sum = 0.0;
-            for (int k = 0; k < shape[1]; k++) { // rows
-                sum += arr[i * strides[0] + k * strides[1] + j * strides[2]];
+            x_idx = i*xstrides[0] + j*xstrides[1];
+            
+            y_idx = y_idx1*ystrides[0] + y_idx2*ystrides[1];
+            switch (op) {
+            case ADD:
+                out[x_idx] = x[x_idx] + y[y_idx];
+                break;
+            case MUL:
+                out[x_idx] = x[x_idx] * y[y_idx];
+                break;
+            case SUB:
+                out[x_idx] = x[x_idx] - y[y_idx];
+                break;
             }
-            out[idx++] = sum;
         }
     }
-
-
-    return out;
 }
-
-/*
-    idx=0
-    idx=2
-    idx=4
-    idx=1
-    idx=3
-    idx=5
-    idx=6
-    idx=8
-    idx=10
-    idx=7
-    idx=9
-    idx=11
-    idx=12
-    idx=14
-    idx=16
-    idx=13
-    idx=15
-    idx=17
-    idx=18
-    idx=20
-    idx=22
-    idx=19
-    idx=21
-    idx=23
-*/
-
-// It is pretty self-explanatory what the algorithm is doing by comparing the idx values with the array shown above.
 ```
 
-case sum(dim=2)
+Let's consider we are adding 2 tensors of shape (2, 3) and (1, 3). The values are
+
+```python
+x.shape (2, 3)
+x.stride (3, 1)
+y.shape (1, 3)
+y.stride (3, 1)
+```
+
+An important point to note is that, all the algorithms I have come up with assumes that the x array is the *higher* dimensional array or in other words the tensor to which the other tensor *should be broadcasted to*.
+
+Now, the algorithm becomes
+
 ```c
-// This is the main function 
-
-for (int i = 0; i < shape[0]; i++) {
-    for (int j = 0; j < shape[1]; j++) { // rows
-        float sum = 0.0;
-        for (int k = 0; k < shape[2]; k++) { // cols
-            sum += arr[i * strides[0] + j * strides[1] + k * strides[2]];
-        }
-        out[idx++] = sum;
+ for (int i=0; i<2; i++) {          // rows
+    for (int j=0; j<3; j++) {       // cols
+    
     }
-}
-
-/*
-    idx=0
-    idx=1
-    idx=2
-    idx=3
-    idx=4
-    idx=5
-    idx=6
-    idx=7
-    idx=8
-    idx=9
-    idx=10
-    idx=11
-    idx=12
-    idx=13
-    idx=14
-    idx=15
-    idx=16
-    idx=17
-    idx=18
-    idx=19
-    idx=20
-    idx=21
-    idx=22
-    idx=23
-*/
-
-// It is pretty self-explanatory what the algorithm is doing by comparing the idx values with the array shown above.
+ }
 ```
+
+The y_idx is simple *i* or *j* based on which dimension broadcasting has to be done multiplied by the stride.
+
+```c
+
+// If broadcasting has to be done along dimension 1 (row-wise), for example, (2, 3) and (1, 3), then y_idx1 is always 0 and y_idx2 is (0, 1, 2). 
+// And y_idx is y_idx2*stride[1].
+
+// If broadcasting has to be done along dimension 0 (col-wise), for example, (2, 3) and (2, 1), then y_idx1 is always (0, 1) and y_idx2 is always 0. 
+// And y_idx is y_idx1*stride[0].
+
+// x_idx is always row*xstrides[0] + col*xstrides[1]
+```
+
+The same logic applies to 3D tensors as well.
