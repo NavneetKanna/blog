@@ -159,3 +159,7 @@ The algorithm is pretty simple,
 ```
 
 The same logic applies to 3D tensors as well.
+
+### Max
+
+The algorithm is the same as sum, but instead of incrementing *out[out_idx]*, we check if it less than *x[x_idx]* and update *out[out_idx]* as *out[out_idx] = x[x_idx]*  
