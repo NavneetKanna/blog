@@ -138,7 +138,7 @@ The value of `momentum` is usually 0.9, which means we want to use 0.9 times the
 
 #### Adam
 
-Adam builds on top of GD with momentum by adding a term (v) that adjusts the learning rate for each parameter
+[Adam](https://paperswithcode.com/method/adam) builds on top of GD with momentum by adding a term (v) that adjusts the learning rate for each parameter
 
 ```math
 m (new) = beta1 * m (old) + (1 - beta1) * gradient (parameter) // same as momentum
