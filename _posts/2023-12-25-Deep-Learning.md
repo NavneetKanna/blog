@@ -126,3 +126,11 @@ The formula is as follows,
 velocity (new) = momentum * velocity (old) + gradient (parameter)
 θ (new) = θ (old) - learning_rate * velocity
 ```
+
+As the name suggests, momentum used with GD boosts the step we take. Lets assume at each step we are going in one direction (downward), given this formula
+
+```math
+velocity (new) = momentum * velocity (old) + gradient (parameter)
+```
+
+each step accumulates more and more momentum because we keep adding `momentum * velocity (old)` to the gradient. The result is that the updates get larger, making the optimization faster.
