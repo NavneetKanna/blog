@@ -111,7 +111,7 @@ There are several methods for computing derivatives: numerical differentiation, 
 Algorithms like gradient descent, stochastic gradient descent, adam are called optimizers. Optimizers are algorithms that adjust the parameters of a neural network to minimize a loss function. The formula for gradient descent is 
 
 ```math
-θ_{new} = θ_{old} - learning_rate * gradient
+θ (new) = θ (old) - learning_rate * gradient
 ```
 
 #### Stochastic Gradient Descent
