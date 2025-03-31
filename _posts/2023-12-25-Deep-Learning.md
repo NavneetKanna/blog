@@ -16,14 +16,13 @@ Simply put, deep learning is the study of enabling computers or algorithms to le
 
 Consider, for example, writing an algorithm to predict handwritten digits. If we were to manually write such an algorithm, we might rely on many if-else statements:
 
-```c
-if (there is a curve on the top) {
-    printf("maybe it is 6, 3, 2, 9");
-}
+```python
+if there is a curve on the top
+    print("maybe it is 6, 3, 2, 9")
 
-else if (there are two lines) {
-    printf("maybe it is 1, 7");
-}
+
+elf there are two lines
+    print("maybe it is 1, 7")
 ```
 
 This is just pseudocode—imagine having to write a complete algorithm like this! There must be a much better, more efficient, and more intelligent way of doing this. That’s where deep learning comes in.
@@ -90,7 +89,7 @@ Backpropagation is the process of calculating the gradients of a loss function w
 
 The derivative of a function tells us how to change the input in order to increase or decrease the output, which helps us move closer to the function's minimum or maximum [source](https://machinelearningmastery.com/gradient-in-machine-learning/). In essence, the derivative at a point indicates the direction of steepest ascent; taking its negative gives the direction of steepest descent, which is what we want.
 
-A gradient is simply the derivative of a multivariable function such as a loss function and is represented as a vector of partial derivatives. Thus, backpropagation is the algorithm that calculates these gradients.
+A gradient is simply the derivative of a multivariable function such as a loss function and is represented as a vector of partial derivatives. Thus, backpropagation is the algorithm that calculates these gradients. The gradient tells us the direction of steepest increase in the loss function. If we take the negative of the gradient, we get the direction of steepest decrease. This is the most efficient direction to move to reduce the loss quickly.
 
 #### Gradient Descent
 
@@ -100,9 +99,13 @@ While backpropagation calculates the gradient (i.e., the direction and magnitude
 
 - Forward Pass: Inputs are multiplied by the weights.
 - Loss Calculation: The loss function measures the error.
-- Backpropagation: Gradients are computed using the backpropagation algorithm.
-- Parameter Update: The weights are updated by subtracting the gradient in a process called gradient descent.
+- Backpropagation: Gradients of the loss are computed wrt all the parameters using the backpropagation algorithm.
+- Parameter Update: The weights are updated by the gradient in a process called gradient descent.
 
-### Automatic differentiation (AD)
+#### Automatic differentiation (AD)
 
 There are several methods for computing derivatives: numerical differentiation, symbolic differentiation, and automatic differentiation (AD). The first two have disadvantages that make them less suitable for deep learning [source](https://www.jmlr.org/papers/volume18/17-468/17-468.pdf). AD is an efficient, algorithmic way to compute derivatives during backpropagation, utilizing computational graphs to manage the calculations.
+
+### Optimizers
+
+Algorithms like gradient descent, stochastic gradient descent, adam are called optimizers. Optimizers are algorithms that adjust the parameters of a neural network to minimize a loss function.
