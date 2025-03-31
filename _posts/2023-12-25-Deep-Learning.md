@@ -111,9 +111,18 @@ There are several methods for computing derivatives: numerical differentiation, 
 Algorithms like gradient descent, stochastic gradient descent, adam are called optimizers. Optimizers are algorithms that adjust the parameters of a neural network to minimize a loss function. The formula for gradient descent is 
 
 ```math
-θ (new) = θ (old) - learning_rate * gradient
+θ (new) = θ (old) - learning_rate * gradient (parameter)
 ```
 
-#### Stochastic Gradient Descent
+#### Gradient Descent, Stochastic Gradient Descent and Mini-batch Gradient Descent
 
-Regular gradient descent computes the gradient using the entire dataset before making a parameter update. SGD updates parameters in batches. This makes updates much faster but also much noisier.
+Regular gradient descent computes the gradient using the entire dataset before making a parameter update. SGD updates parameters in batches with batch size equal to 1, and mini-batch GD updates the parameters in batches with batch size equal to n. I think SGD and mini-batch GD are used interchangably.
+
+#### GD with momentum
+
+The formula is as follows,
+
+```math
+velocity (new) = momentum * velocity (old) + gradient (parameter)
+θ (new) = θ (old) - learning_rate * velocity
+```
