@@ -134,3 +134,17 @@ velocity (new) = momentum * velocity (old) + gradient (parameter)
 ```
 
 each step accumulates more and more momentum because we keep adding `momentum * velocity (old)` to the gradient. The result is that the updates get larger, making the optimization faster.
+The value of `momentum` is usually 0.9, which means we want to use 0.9 times the previous velocity, think of it maybe like friction ?
+
+#### Adam
+
+Adam builds on top of GD with momentum by adding a term (v) that adjusts the learning rate for each parameter
+
+```math
+m (new) = beta1 * m (old) + (1 - beta1) * gradient (parameter) // same as momentum
+v (new) = beta1 * v (old) + (1 - beta1) * gradient^2 (parameter)
+
+θ (new) = θ (old) - learning_rate * (m (new) / (sqrt(v (new)) + epsilon))
+```
+
+If the gradients are consistently large, `v`​ will be large. If the gradients are small, `v` will be small. By dividing by `sqrt(v)`​, adam make's sure that big updates get smaller and small updates get bigger.
