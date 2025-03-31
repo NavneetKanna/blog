@@ -108,4 +108,12 @@ There are several methods for computing derivatives: numerical differentiation, 
 
 ### Optimizers
 
-Algorithms like gradient descent, stochastic gradient descent, adam are called optimizers. Optimizers are algorithms that adjust the parameters of a neural network to minimize a loss function.
+Algorithms like gradient descent, stochastic gradient descent, adam are called optimizers. Optimizers are algorithms that adjust the parameters of a neural network to minimize a loss function. The formula for gradient descent is 
+
+```math
+θ_{new} = θ_{old} - learning_rate * gradient
+```
+
+#### Stochastic Gradient Descent
+
+Regular gradient descent computes the gradient using the entire dataset before making a parameter update. SGD updates parameters in batches. This makes updates much faster but also much noisier.
