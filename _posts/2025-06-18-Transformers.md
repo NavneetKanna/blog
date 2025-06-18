@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Transforemers (Decoder-Only)"
+title: "Transformers (Decoder-Only)"
 date: 2025-06-18
 ---
 
