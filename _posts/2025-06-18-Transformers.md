@@ -12,7 +12,10 @@ In the post, I try to explain the transformer architecture (decoder-only) from s
 2. There are multiple blocks. Each block consists of multiple Multi-Head Attention layers, followed by layer norms, followed by feed-forward network.
 3. After the blocks, there is a linear and softmax linear, which outputs probabilites.
 
-Lets come back to encoding the input later, but lets assume after embedding with position the input is as follows,
+
+### Input data
+
+Lets come back to encoding the input later, but lets assume after embedding with position, the input is as follows,
 
 ```python
 
@@ -55,4 +58,28 @@ We have 2 batches, each with 4 rows (these are words from the dataset, since tha
 and 3 columns (the length of our embedding dimension).
 """
 ```
+
+This input now gets fed into individual blocks which are independent of each other.
+
+### Block
+
+The block comprises of multiple attention heads, layer norms and a feed-forward layer. 
+
+1. The input first gets fed into a layernorm (in the original paper the layernorm comes after the attention heads, but in receent times, people are preferring to use it before the attention heads).
+2. The output of that now gets fed into the individual heads.
+3. The output of the multi-head attention gets added with the original input.
+4. The output of the above step again gets fed into a layernorm.
+5. The output of the above step now gets fed into the feedforward layer.
+6. The output of the above step gets added with the output of step 3.
+
+#### Multi-Attention heads
+
+1. The input gets fed into multiple attention heads.
+2. The outputs from each are concatenated.
+3. The concatenated output is fed into a linear layer.
+
+#### Single Attention head
+
+
+
 
