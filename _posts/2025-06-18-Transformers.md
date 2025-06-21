@@ -90,4 +90,13 @@ First lets understand what are the goals of attention mechanism, what does it tr
 
 For our example, lets take the first input sequence, ```The sun dipped below the horizon``` (6 is our context length). Let's say we are predicting the last word ```The sun dipped below the ____```, to predict this word, it needs to learn that the word ```sun``` or ```dipped``` is more important or relevant compared to others, and give more attention towards those words.
 
+To accomplish this, there are 3 vectors that are used, query, key and value. The intuition is as follows
+
+| Name          | Intuition                 |
+| ------------- | -------------------------- |
+| **Query (Q)** | What do I need?            |
+| **Key (K)**   | What do I have?            |
+| **Value (V)** | What info can I provide?   |
+
+
 
