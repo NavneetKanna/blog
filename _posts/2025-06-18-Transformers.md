@@ -43,18 +43,22 @@ inp = [
         [0.4553, 0.3277, 0.4210],   # The
         [0.0874, 0.3216, 0.2850],   # sun
         [0.8880, 0.2221, 0.6271],   # dipped
-        [0.9180, 0.8070, 0.4281]    # below
-    ],
-    [
+        [0.9180, 0.8070, 0.4281],   # below
         [0.4874, 0.9018, 0.4258],   # the
         [0.0441, 0.1988, 0.6751],   # horizon
+    ],
+    [
         [0.9347, 0.9255, 0.6341],   # ,
-        [0.7656, 0.2911, 0.6161]    # painting
+        [0.7656, 0.2911, 0.6161],   # painting
+        [0.4200, 0.3295, 0.1863],   # the
+        [0.3197, 0.9724, 0.6066],   # sky
+        [0.4521, 0.9276, 0.3951],   # with
+        [0.7899, 0.7894, 0.2245]    # hues
     ]
 ]
 
 """
-We have 2 batches, each with 4 rows (these are words from the dataset, since that is our context length)
+We have 2 batches, each with 6 rows (these are words from the dataset, since that is our context length)
 and 3 columns (the length of our embedding dimension).
 """
 ```
@@ -78,8 +82,12 @@ The block comprises of multiple attention heads, layer norms and a feed-forward 
 2. The outputs from each are concatenated.
 3. The concatenated output is fed into a linear layer.
 
-#### Single Attention head
+#### Single Attention head (Attention mechanism)
 
+First lets understand what are the goals of attention mechanism, what does it try to achieve,
 
+1. Decide what parts of the input sequence (the context length) to focus on when processing or generating each token.
+
+For our example, lets take the first input sequence, ```The sun dipped below the horizon``` (6 is our context length). Let's say we are predicting the last word ```The sun dipped below the ____```, to predict this word, it needs to learn that the word ```sun``` or ```dipped``` is more important or relevant compared to others, and give more attention towards those words.
 
 
