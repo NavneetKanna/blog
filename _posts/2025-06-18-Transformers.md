@@ -98,5 +98,22 @@ To accomplish this, there are 3 vectors that are used, query, key and value. The
 | **Key (K)**   | What do I have?            |
 | **Value (V)** | What info can I provide?   |
 
+Each token in the sequence has got all 3 vectors associated with them. The way they are derived is by shifting them from embedding space into a query, key and value space using a linear transformation ```nn.linear(bias=False)```. The weights associated with this linear layer are learnt during training. In other words, the model tries to learn a good weight matrix that can transform the input embedding into reasonable representations of the query, key and values space.
 
+Ok now lets try to understand what these are actually.
 
+Given the input, in our case, (2, 6, 3), we get the query, key and value matrix like so
+
+```python
+self.key = nn.Linear(n_embd, head_size, bias=False)
+self.query = nn.Linear(n_embd, head_size, bias=False)
+self.value = nn.Linear(n_embd, head_size, bias=False)
+```
+
+where ```n_embd``` is 3 in our case. ```head_size``` is calculated as follows
+
+```python
+head_size = n_embd // n_head
+```
+
+```n_head``` is a parameter we can choose based on the embedding dimension, for example, if the embedding dimension is 384, we can set ```n_head``` to 6, so that ```head_size``` is 64 which means each head processes 64 columns from the input.
