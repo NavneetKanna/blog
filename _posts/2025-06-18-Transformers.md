@@ -19,7 +19,7 @@ Lets come back to encoding the input later, but lets assume after embedding with
 
 ```python
 
-inp = (2, 4, 3)
+inp = (2, 6, 4)
 
 """
 where,
@@ -40,20 +40,20 @@ In that peaceful moment, the world seemed to pause and breathe.
 
 inp = [
     [
-        [0.4553, 0.3277, 0.4210],   # The
-        [0.0874, 0.3216, 0.2850],   # sun
-        [0.8880, 0.2221, 0.6271],   # dipped
-        [0.9180, 0.8070, 0.4281],   # below
-        [0.4874, 0.9018, 0.4258],   # the
-        [0.0441, 0.1988, 0.6751],   # horizon
+        [0.4553, 0.3277, 0.4210, 0.6628],   # The
+        [0.0874, 0.3216, 0.2850, 0.1438],   # sun
+        [0.8880, 0.2221, 0.6271, 0.8234],   # dipped
+        [0.9180, 0.8070, 0.4281, 0.1977],   # below
+        [0.4874, 0.9018, 0.4258, 0.1630],   # the
+        [0.0441, 0.1988, 0.6751, 0.8757],   # horizon
     ],
     [
-        [0.9347, 0.9255, 0.6341],   # ,
-        [0.7656, 0.2911, 0.6161],   # painting
-        [0.4200, 0.3295, 0.1863],   # the
-        [0.3197, 0.9724, 0.6066],   # sky
-        [0.4521, 0.9276, 0.3951],   # with
-        [0.7899, 0.7894, 0.2245]    # hues
+        [0.9347, 0.9255, 0.6341, 0.0567],   # ,
+        [0.7656, 0.2911, 0.6161, 0.0123],   # painting
+        [0.4200, 0.3295, 0.1863, 0.7694],   # the
+        [0.3197, 0.9724, 0.6066, 0.2184],   # sky
+        [0.4521, 0.9276, 0.3951, 0.1281],   # with
+        [0.7899, 0.7894, 0.2245, 0.2889]    # hues
     ]
 ]
 
@@ -98,11 +98,11 @@ To accomplish this, there are 3 vectors that are used, query, key and value. The
 | **Key (K)**   | What do I have?            |
 | **Value (V)** | What info can I provide?   |
 
-Each token in the sequence has got all 3 vectors associated with them. The way they are derived is by shifting them from embedding space into a query, key and value space using a linear transformation ```nn.linear(bias=False)```. The weights associated with this linear layer are learnt during training. In other words, the model tries to learn a good weight matrix that can transform the input embedding into reasonable representations of the query, key and values space.
+Each token in the sequence has got all 3 vectors associated with them. The way they are derived is by shifting them from embedding space into a query, key and value space using a linear transformation ```nn.linear(bias=False)```. The weights associated with this linear layer are learnt during training. In other words, the model tries to learn a good weight matrix that can transform the input embedding into reasonable representations of the query, key and values space for the given dataset.
 
 Ok now lets try to understand what these are actually.
 
-Given the input, in our case, (2, 6, 3), we get the query, key and value matrix like so
+Given the input, in our case, (2, 6, 4), we get the query, key and value matrix like so
 
 ```python
 self.key = nn.Linear(n_embd, head_size, bias=False)
@@ -110,10 +110,10 @@ self.query = nn.Linear(n_embd, head_size, bias=False)
 self.value = nn.Linear(n_embd, head_size, bias=False)
 ```
 
-where ```n_embd``` is 3 in our case. ```head_size``` is calculated as follows
+where ```n_embd``` is 4. ```head_size``` is calculated as follows
 
 ```python
 head_size = n_embd // n_head
 ```
 
-```n_head``` is a parameter we can choose based on the embedding dimension, for example, if the embedding dimension is 384, we can set ```n_head``` to 6, so that ```head_size``` is 64 which means each head processes 64 columns from the input.
+```n_head``` is a parameter we can choose based on the embedding dimension, for example, if the embedding dimension is 4, we can set ```n_head``` to 2, so that ```head_size``` is 2 which means each head processes 2 columns from the input.
