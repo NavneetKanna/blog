@@ -122,7 +122,7 @@ key = nn.Linear(4, 2, bias=False)       # key.weight.shape = (2, 4)
 value = nn.Linear(4, 2, bias=False)     # value.weight.shape = (2, 4)
 ```
 
-The input shape that is fed into each head remains the same, ie, (2, 6, 4). So lets feed this into the head and see what happens
+The input shape that is fed into each head remains the same, ie, (2, 6, 4). So lets feed this into the attention head and see what happens
 
 ```python
 inp = (2, 4, 6)
@@ -132,8 +132,20 @@ q = query(inp)          # inp @ query.weight.T = (2, 6, 4) @ (4, 2) = (2, 6, 2)
 k = key(inp)            # inp @ key.weight.T = (2, 6, 4) @ (4, 2) = (2, 6, 2)
 
 # second, we take the dot product (matmul) between the queries and keys
-
 r = q @ k.transpose(-2, -1)   # (2, 6, 2) @ (2, 2, 6) = (2, 6, 6)
+
+# third, we scale it by the square root of the head_size (hence the name scaled dot-product attention)
+r = r * k.shape[-1]**-0.5     # (2, 6, 6)
+
+# fourth, we apply causal mask
+r = r.masked_fill(self.tril[:T, :T] == 0, float('-inf'))    # (2, 6, 6)
+
+# fifth, we normalize it using softmax
+r = F.softmax(r, dim=-1)    # (2, 6, 6)
+
+v = value(inp)     # (2, 6, 4) @ (4, 2) = (2, 6, 2)
+# sixth, perform weighted sum wrt the values
+out = r @ v     # (2, 6, 6) @ (2, 6, 2) = (2, 6, 2)
 ```
 
 Lets see what is happening with 1 token say ```sun```, 
