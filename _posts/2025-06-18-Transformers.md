@@ -98,7 +98,7 @@ To accomplish this, there are 3 vectors that are used, query, key and value. The
 | **Key (K)**   | What do I have?            |
 | **Value (V)** | What info can I provide?   |
 
-Each token in the sequence has got all 3 vectors associated with them. The way they are derived is by shifting or projecting them from embedding space into a query, key and value space using a linear transformation ```nn.linear(bias=False)```. The weights associated with this linear layer are learnt during training. In other words, the model tries to learn a good weight matrix that can transform the input embedding into reasonable representations of the query, key and values space for the given dataset.
+Each token in the sequence has got all 3 vectors associated with them. The way they are derived is by shifting or projecting them from embedding space into a query, key and value space using a linear transformation ```nn.linear(bias=False)```. The weights associated with this linear layer are learnt during training. In other words, the model tries to learn a good weight matrix that can transform the input embedding into reasonable representations of the query, key and values space for the given dataset. The reason this is done is because, say the word apple is used in a sentence, based on the context, we can tell if the word apple is referring to the fruit or the company, however, in the embedding space, the word apple has got 1 fixed representation.
 
 We get the query, key and value matrix like so
 
@@ -127,7 +127,7 @@ The input shape that is fed into each head remains the same, ie, (2, 6, 4). So l
 ```python
 inp = (2, 4, 6)
 
-# first, we get the respective query and key matrix
+# first, we get the respective query and key matrix by projecting them into the new space
 q = query(inp)          # inp @ query.weight.T = (2, 6, 4) @ (4, 2) = (2, 6, 2)
 k = key(inp)            # inp @ key.weight.T = (2, 6, 4) @ (4, 2) = (2, 6, 2)
 
@@ -136,22 +136,23 @@ k = key(inp)            # inp @ key.weight.T = (2, 6, 4) @ (4, 2) = (2, 6, 2)
 r = q @ k.transpose(-2, -1)   # (2, 6, 2) @ (2, 2, 6) = (2, 6, 6)
 ```
 
-Lets see what is happening with 1 sequence say the token ```sun```, 
+Lets see what is happening with 1 token say ```sun```, 
 
 ```python
 
 # (2, 6, 4)
-inp = [[
-            [],                                   # the
-            [0.0874, 0.3216, 0.2850, 0.1438],     # sun
-            [],                                   # dipped
-            [],                                   # below
-            [],                                   # the 
-            [],                                   # horizon
-        ], 
-        [
-            ...
-        ]
+inp = [
+    [
+        [],                                   # the
+        [0.0874, 0.3216, 0.2850, 0.1438],     # sun
+        [],                                   # dipped
+        [],                                   # below
+        [],                                   # the 
+        [],                                   # horizon
+    ], 
+    [
+        ...
+    ]
 ]
 
 # (4, 2)
@@ -166,19 +167,22 @@ key.weight.T = [[0.0159, 0.8154],
                 [0.0800, 0.6120],
                 [0.2787, 0.2258]]
 
-# (2, 6, 2) -> each head
-q = [[
-            [],                   # the
-            [0.9100, 0.3448],     # sun
-            [],                   # dipped
-            [],                   # below
-            [],                   # the 
-            [],                   # horizon
-        ], 
-        [
-            ...
-        ]
+# q = query(inp)
+# q = (2, 6, 2) -> each head
+q = [
+[
+        [],                   # the
+        [0.9100, 0.3448],     # sun
+        [],                   # dipped
+        [],                   # below
+        [],                   # the 
+        [],                   # horizon
+    ], 
+    [
+        ...
+    ]
 ]
 ```
 
 The token ```sun``` has now shifted/projected to a new query and key space. Now we can begin the attention mechanisim.
+
