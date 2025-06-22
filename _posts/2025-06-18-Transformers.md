@@ -67,20 +67,20 @@ This input now gets fed into individual blocks which are independent of each oth
 
 ### Block
 
-The block comprises of multiple attention heads, layer norms and a feed-forward layer. 
+The block consists of multiple attention heads, layer normalization layers, and a feed-forward layer.
 
-1. The input first gets fed into a layernorm (in the original paper the layernorm comes after the attention heads, but in receent times, people are preferring to use it before the attention heads).
-2. The output of that now gets fed into the individual heads.
-3. The output of the multi-head attention gets added with the original input.
-4. The output of the above step again gets fed into a layernorm.
-5. The output of the above step now gets fed into the feedforward layer.
-6. The output of the above step gets added with the output of step 3.
+1. The input is first passed through a layer normalization layer. (In the original paper, layer normalization is applied after the attention heads, but recently, it has become more common to apply it before the attention heads.)
+2. The normalized input is then fed into the individual attention heads.
+3. The outputs from the multi-head attention are added to the original input.
+4. The result of this addition is passed through another layer normalization layer.
+5. The normalized output is then fed into the feed-forward layer.
+6. Finally, the output of the feed-forward layer is added to the output from step 3.
 
 #### Multi-Attention heads
 
-1. The input gets fed into multiple attention heads.
-2. The outputs from each are concatenated.
-3. The concatenated output is fed into a linear layer.
+1. The input is fed into multiple attention heads in parallel.
+2. The outputs from each attention head are concatenated.
+3. The concatenated output is then passed through a linear layer.
 
 #### Single Attention head (Attention mechanism)
 
