@@ -127,9 +127,10 @@ The input shape that is fed into each head remains the same, ie, (2, 6, 4). So l
 ```python
 inp = (2, 4, 6)
 
-# first, we get the respective query and key matrix by projecting them into the new space
+# first, we get the respective query, key and value matrix by projecting them into the new space
 q = query(inp)          # inp @ query.weight.T = (2, 6, 4) @ (4, 2) = (2, 6, 2)
 k = key(inp)            # inp @ key.weight.T = (2, 6, 4) @ (4, 2) = (2, 6, 2)
+v = value(inp)          # inp @ value.weigth.T = (2, 6, 4) @ (4, 2) = (2, 6, 2)
 
 # second, we take the dot product (matmul) between the queries and keys
 r = q @ k.transpose(-2, -1)   # (2, 6, 2) @ (2, 2, 6) = (2, 6, 6)
@@ -143,7 +144,6 @@ r = r.masked_fill(self.tril[:T, :T] == 0, float('-inf'))    # (2, 6, 6)
 # fifth, we normalize it using softmax
 r = F.softmax(r, dim=-1)    # (2, 6, 6)
 
-v = value(inp)     # (2, 6, 4) @ (4, 2) = (2, 6, 2)
 # sixth, perform weighted sum wrt the values
 out = r @ v     # (2, 6, 6) @ (2, 6, 2) = (2, 6, 2)
 ```
