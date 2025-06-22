@@ -98,16 +98,14 @@ To accomplish this, there are 3 vectors that are used, query, key and value. The
 | **Key (K)**   | What do I have?            |
 | **Value (V)** | What info can I provide?   |
 
-Each token in the sequence has got all 3 vectors associated with them. The way they are derived is by shifting them from embedding space into a query, key and value space using a linear transformation ```nn.linear(bias=False)```. The weights associated with this linear layer are learnt during training. In other words, the model tries to learn a good weight matrix that can transform the input embedding into reasonable representations of the query, key and values space for the given dataset.
+Each token in the sequence has got all 3 vectors associated with them. The way they are derived is by shifting or projecting them from embedding space into a query, key and value space using a linear transformation ```nn.linear(bias=False)```. The weights associated with this linear layer are learnt during training. In other words, the model tries to learn a good weight matrix that can transform the input embedding into reasonable representations of the query, key and values space for the given dataset.
 
-Ok now lets try to understand what these are actually.
-
-Given the input, in our case, (2, 6, 4), we get the query, key and value matrix like so
+We get the query, key and value matrix like so
 
 ```python
-self.key = nn.Linear(n_embd, head_size, bias=False)
-self.query = nn.Linear(n_embd, head_size, bias=False)
-self.value = nn.Linear(n_embd, head_size, bias=False)
+query = nn.Linear(n_embd, head_size, bias=False)
+key = nn.Linear(n_embd, head_size, bias=False)
+value = nn.Linear(n_embd, head_size, bias=False)
 ```
 
 where ```n_embd``` is 4. ```head_size``` is calculated as follows
@@ -116,4 +114,71 @@ where ```n_embd``` is 4. ```head_size``` is calculated as follows
 head_size = n_embd // n_head
 ```
 
-```n_head``` is a parameter we can choose based on the embedding dimension, for example, if the embedding dimension is 4, we can set ```n_head``` to 2, so that ```head_size``` is 2 which means each head processes 2 columns from the input.
+```n_head``` is a parameter we can choose based on the embedding dimension, for example, if the embedding dimension is 4, we can set ```n_head``` to 2, so that ```head_size``` is 2. Therefore,
+
+```python
+query = nn.Linear(4, 2, bias=False)     # query.weight.shape = (2, 4)
+key = nn.Linear(4, 2, bias=False)       # key.weight.shape = (2, 4)
+value = nn.Linear(4, 2, bias=False)     # value.weight.shape = (2, 4)
+```
+
+The input shape that is fed into each head remains the same, ie, (2, 6, 4). So lets feed this into the head and see what happens
+
+```python
+inp = (2, 4, 6)
+
+# first, we get the respective query and key matrix
+q = query(inp)          # inp @ query.weight.T = (2, 6, 4) @ (4, 2) = (2, 6, 2)
+k = key(inp)            # inp @ key.weight.T = (2, 6, 4) @ (4, 2) = (2, 6, 2)
+
+# second, we take the dot product (matmul) between the queries and keys
+
+r = q @ k.transpose(-2, -1)   # (2, 6, 2) @ (2, 2, 6) = (2, 6, 6)
+```
+
+Lets see what is happening with 1 sequence say the token ```sun```, 
+
+```python
+
+# (2, 6, 4)
+inp = [[
+            [],                                   # the
+            [0.0874, 0.3216, 0.2850, 0.1438],     # sun
+            [],                                   # dipped
+            [],                                   # below
+            [],                                   # the 
+            [],                                   # horizon
+        ], 
+        [
+            ...
+        ]
+]
+
+# (4, 2)
+query.weight.T = [[0.0596, 0.1518],
+                  [0.9566, 0.7557],
+                  [0.9980, 0.6619],
+                  [0.4630, 0.5791]]
+
+# (4, 2)
+key.weight.T = [[0.0159, 0.8154],
+                [0.5987, 0.4071],
+                [0.0800, 0.6120],
+                [0.2787, 0.2258]]
+
+# (2, 6, 2) -> each head
+q = [[
+            [],                   # the
+            [0.9100, 0.3448],     # sun
+            [],                   # dipped
+            [],                   # below
+            [],                   # the 
+            [],                   # horizon
+        ], 
+        [
+            ...
+        ]
+]
+```
+
+The token ```sun``` has now shifted/projected to a new query and key space. Now we can begin the attention mechanisim.
