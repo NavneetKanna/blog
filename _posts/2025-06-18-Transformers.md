@@ -139,6 +139,7 @@ r = q @ k.transpose(-2, -1)   # (2, 6, 2) @ (2, 2, 6) = (2, 6, 6)
 r = r * k.shape[-1]**-0.5     # (2, 6, 6)
 
 # fourth, we apply causal mask
+tril = torch.tril(torch.ones(6, 6))
 r = r.masked_fill(tril[:inp.shape[1], :inp.shape[1]] == 0, float('-inf'))    # (2, 6, 6)
 
 # fifth, we normalize it using softmax
