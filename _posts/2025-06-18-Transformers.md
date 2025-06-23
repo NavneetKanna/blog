@@ -149,7 +149,7 @@ r = F.softmax(r, dim=-1)    # (2, 6, 6)
 out = r @ v     # (2, 6, 6) @ (2, 6, 2) = (2, 6, 2)
 ```
 
-Lets see what is happening with 1 token say ```sun```, 
+Lets see what is happening with 1 token say ```horizon```, 
 
 ```python
 
@@ -157,11 +157,11 @@ Lets see what is happening with 1 token say ```sun```,
 inp = [
     [
         [],                                   # the
-        [0.0874, 0.3216, 0.2850, 0.1438],     # sun
+        [],                                   # sun
         [],                                   # dipped
         [],                                   # below
         [],                                   # the 
-        [],                                   # horizon
+        [0.0441, 0.1988, 0.6751, 0.8757],     # horizon
     ], 
     [
         ...
@@ -185,11 +185,11 @@ key.weight.T = [[0.0159, 0.8154],
 q = [
     [
         [],                   # the
-        [0.9100, 0.3448],     # sun
+        [],                   # sun
         [],                   # dipped
         [],                   # below
         [],                   # the 
-        [],                   # horizon
+        [0.9100, 0.3448],     # horizon
     ], 
     [
         ...
@@ -201,11 +201,11 @@ q = [
 k = [
     [
         [],                   # the
-        [0.1107, 0.2851],     # sun
+        [],                   # sun
         [],                   # dipped
         [],                   # below
         [],                   # the 
-        [],                   # horizon
+        [0.1107, 0.2851],     # horizon
     ], 
     [
         ...
@@ -217,11 +217,11 @@ k = [
 k = [
     [
         [],                   # the
-        [0.3060, 0.2141],     # sun
+        [],                   # sun
         [],                   # dipped
         [],                   # below
         [],                   # the 
-        [],                   # horizon
+        [0.3060, 0.2141],     # horizon
     ], 
     [
         ...
@@ -229,5 +229,5 @@ k = [
 ]
 ```
 
-The token ```sun``` has now shifted/projected to a new query, key and value space. The query matrix as the name suggests, is trying to query other tokens in the sequence and ask each of them which one of you are relevant to me ?. The key matrix contains the answer to this question. Remember that these are all vectors in n-dim space, when we take a dot product between 2 vectors, it signifies how close those 2 vectors are or if they point in the same direction. So when we take the dot product between the query and key vectors, the scalar output tells us how much one token in the sequence (key) is related to the token in question (query).
+The token ```horizon``` has now shifted/projected to a new query, key and value space. The query matrix as the name suggests, is trying to query other tokens in the sequence and ask each of them which one of you are relevant to me ?. The key matrix contains the answer to this question. Remember that these are all vectors in n-dim space, when we take a dot product between 2 vectors, it signifies how close those 2 vectors are or if they point in the same direction. So when we take the dot product between the query and key vectors, the scalar output tells us how much one token in the sequence (key) is related to the token in question (query).
 
