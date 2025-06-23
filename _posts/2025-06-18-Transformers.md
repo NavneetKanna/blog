@@ -168,18 +168,6 @@ inp = [
     ]
 ]
 
-# (4, 2)
-query.weight.T = [[0.0596, 0.1518],
-                  [0.9566, 0.7557],
-                  [0.9980, 0.6619],
-                  [0.4630, 0.5791]]
-
-# (4, 2)
-key.weight.T = [[0.0159, 0.8154],
-                [0.5987, 0.4071],
-                [0.0800, 0.6120],
-                [0.2787, 0.2258]]
-
 # q = query(inp)
 # q = (2, 6, 2) -> each head
 q = [
@@ -200,12 +188,12 @@ q = [
 # k = (2, 6, 2) -> each head
 k = [
     [
-        [],                   # the
-        [],                   # sun
-        [],                   # dipped
-        [],                   # below
-        [],                   # the 
-        [0.1107, 0.2851],     # horizon
+        [0.0921, 0.9907],   # the
+        [0.5637, 0.7303],   # sun
+        [0.1860, 0.4071],   # dipped
+        [0.8067, 0.1776],   # below
+        [0.7002, 0.6632],   # the
+        [0.9094, 0.3594]    # horizon
     ], 
     [
         ...
@@ -214,13 +202,13 @@ k = [
 
 # v = value(inp)
 # v = (2, 6, 2) -> each head
-k = [
+v = [
     [
-        [],                   # the
-        [],                   # sun
-        [],                   # dipped
-        [],                   # below
-        [],                   # the 
+        [0.5637, 0.4056],     # the
+        [0.9803, 0.0100],     # sun
+        [0.4111, 0.3980],     # dipped
+        [0.6882, 0.9797],     # below
+        [0.5551, 0.7583],     # the 
         [0.3060, 0.2141],     # horizon
     ], 
     [
@@ -231,3 +219,28 @@ k = [
 
 The token ```horizon``` has now shifted/projected to a new query, key and value space. The query matrix as the name suggests, is trying to query other tokens in the sequence and ask each of them which one of you are relevant to me ?. The key matrix contains the answer to this question. Remember that these are all vectors in n-dim space, when we take a dot product between 2 vectors, it signifies how close those 2 vectors are or in other words if they point in the same direction. So when we take the dot product between the query and key vectors, the scalar output tells us how much one token in the sequence (key) is related to the token in question (query).
 
+Lets remove the BS dim, to make things simpler, so now we have
+
+```python
+
+# (6, 2)
+q = [
+        [],                   # the
+        [],                   # sun
+        [],                   # dipped
+        [],                   # below
+        [],                   # the 
+        [0.9100, 0.3448],     # horizon
+    ]
+
+# (2, 6)
+k.T = [
+    # the   # sun   # dipped # below # the   # horizon
+    [0.0921, 0.5637, 0.1860, 0.8067, 0.7002, 0.9094],
+    [0.9907, 0.7303, 0.4071, 0.1776, 0.6632, 0.3594]
+] 
+
+# now when we do q @ k.T, we are taking the dot product between the horizon token query vector and all other tokens key vectors
+
+
+```
