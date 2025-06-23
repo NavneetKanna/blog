@@ -183,7 +183,7 @@ key.weight.T = [[0.0159, 0.8154],
 # q = query(inp)
 # q = (2, 6, 2) -> each head
 q = [
-[
+    [
         [],                   # the
         [0.9100, 0.3448],     # sun
         [],                   # dipped
@@ -195,7 +195,39 @@ q = [
         ...
     ]
 ]
+
+# k = key(inp)
+# k = (2, 6, 2) -> each head
+k = [
+    [
+        [],                   # the
+        [0.1107, 0.2851],     # sun
+        [],                   # dipped
+        [],                   # below
+        [],                   # the 
+        [],                   # horizon
+    ], 
+    [
+        ...
+    ]
+]
+
+# v = value(inp)
+# v = (2, 6, 2) -> each head
+k = [
+    [
+        [],                   # the
+        [0.3060, 0.2141],     # sun
+        [],                   # dipped
+        [],                   # below
+        [],                   # the 
+        [],                   # horizon
+    ], 
+    [
+        ...
+    ]
+]
 ```
 
-The token ```sun``` has now shifted/projected to a new query and key space. Now we can begin the attention mechanisim.
+The token ```sun``` has now shifted/projected to a new query, key and value space. The query matrix as the name suggests, is trying to query other tokens in the sequence and ask each of them which one of you are relevant to me ?. The key matrix contains the answer to this question. Remember that these are all vectors in n-dim space, when we take a dot product between 2 vectors, it signifies how close those 2 vectors are or if they point in the same direction. So when we take the dot product between the query and key vectors, the scalar output tells us how much one token in the sequence is related to the token in question in the query.
 
