@@ -240,7 +240,8 @@ k.T = [
     [0.9907, 0.7303, 0.4071, 0.1776, 0.6632, 0.3594]
 ] 
 
-# now when we do q @ k.T, we are taking the dot product between the horizon token query vector and all other tokens key vectors
+# now when we do q @ k.T, we are taking the dot product between 
+# the horizon token query vector and all other tokens key vectors
 
 # (6, 6)
 """         
@@ -252,5 +253,6 @@ below
 the
 horizon  0.4254, 0.7648,  0.3096, 0.7953, 0.8659, 0.9515
 """
-
 ```
+
+The (6, 6) matrix we get tells us how much each token in the sequence is relevant to (or in other words how much the query and key vector point in the same direction) to the query token (horizon in this case).
