@@ -242,5 +242,15 @@ k.T = [
 
 # now when we do q @ k.T, we are taking the dot product between the horizon token query vector and all other tokens key vectors
 
+# (6, 6)
+"""         
+          the     sun    dipped   below    the   horizon
+the          
+sun
+dipped
+below
+the
+horizon  0.4254, 0.7648,  0.3096, 0.7953, 0.8659, 0.9515
+"""
 
 ```
