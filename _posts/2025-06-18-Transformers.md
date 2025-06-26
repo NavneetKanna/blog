@@ -262,3 +262,21 @@ r = r * k.shape[-1]**-0.5
 ```
 
 We now divide the matrix by square root of `head_size`, this is done to because if `head_size` is large then the dot product values become large, therefore, we scale them by the square root of `head_size`. It also helps in the next step, when we perform softmax.
+
+Now we apply masking to the attention matrix. This means the current token can only look and learn from itself and the tokens that comes before it, not after it. This makes sense, since we are trying to predict the next token in the sequence. This is done by masking out the upper triangle of the matrix.
+
+```python
+"""
+          the     sun    dipped   below    the   horizon
+the              -inf     -inf    -inf    -inf   -inf
+sun                       -inf    -inf    -inf   -inf  
+dipped                            -inf    -inf   -inf
+below                                     -inf   -inf
+the                                              -inf
+horizon  0.4254, 0.7648,  0.3096, 0.7953, 0.8659, 0.9515
+"""
+
+# (2, 6, 6)
+tril = torch.tril(torch.ones(6, 6))
+r = r.masked_fill(tril[:inp.shape[1], :inp.shape[1]] == 0, float('-inf'))
+```
