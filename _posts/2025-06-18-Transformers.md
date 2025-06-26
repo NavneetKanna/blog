@@ -243,7 +243,7 @@ k.T = [
 # now when we do q @ k.T, we are taking the dot product between 
 # the horizon token query vector and all other tokens key vectors
 
-# (6, 6)
+# r (6, 6) = q @ k.T (6, 2) @ (2, 6)
 """         
           the     sun    dipped   below    the   horizon
 the          
@@ -255,4 +255,10 @@ horizon  0.4254, 0.7648,  0.3096, 0.7953, 0.8659, 0.9515
 """
 ```
 
-The (6, 6) matrix we get tells us how much each token in the sequence is relevant to (or in other words how much the query and key vector point in the same direction) to the query token (horizon in this case).
+The (6, 6) matrix we get tells us how much each token in the sequence is relevant to the query token (horizon in this case). In other words how much the query and key vector point in the same direction.
+
+``` python
+r = r * k.shape[-1]**-0.5
+```
+
+We now divide the matrix by square root of `head_size`, this is done to because if `head_size` is large then the dot product values become large, therefore, we scale them by the square root of `head_size`. It also helps in the next step, when we perform softmax.
