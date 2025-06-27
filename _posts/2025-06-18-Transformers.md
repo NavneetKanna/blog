@@ -268,15 +268,21 @@ Now we apply masking to the attention matrix. This means the current token can o
 ```python
 """
           the     sun    dipped   below    the   horizon
-the              -inf     -inf    -inf    -inf   -inf
-sun                       -inf    -inf    -inf   -inf  
-dipped                            -inf    -inf   -inf
-below                                     -inf   -inf
-the                                              -inf
+the              -inf     -inf    -inf    -inf    -inf
+sun                       -inf    -inf    -inf    -inf  
+dipped                            -inf    -inf    -inf
+below                                     -inf    -inf
+the                                               -inf
 horizon  0.4254, 0.7648,  0.3096, 0.7953, 0.8659, 0.9515
 """
 
 # (2, 6, 6)
 tril = torch.tril(torch.ones(6, 6))
 r = r.masked_fill(tril[:inp.shape[1], :inp.shape[1]] == 0, float('-inf'))
+```
+
+Next we apply softmax along the last dim to convert the raw attention scores into a probability distribution so that all rows sum to 1. This will be useful in the next step when we to weight each value vector.
+
+```python
+r = F.softmax(r, dim=-1)
 ```
