@@ -273,7 +273,7 @@ sun                       -inf    -inf    -inf    -inf
 dipped                            -inf    -inf    -inf
 below                                     -inf    -inf
 the                                               -inf
-horizon  0.4254, 0.7648,  0.3096, 0.7953, 0.8659, 0.9515
+horizon  0.4254  0.7648  0.3096  0.7953  0.8659  0.9515
 """
 
 # (2, 6, 6)
@@ -285,4 +285,15 @@ Next we apply softmax along the last dim to convert the raw attention scores int
 
 ```python
 r = F.softmax(r, dim=-1)
+
+# it can be seen that, higher attention scores get higher values and all of them sum to 1
+"""
+          the     sun    dipped   below    the   horizon
+the              -inf     -inf    -inf    -inf    -inf
+sun                       -inf    -inf    -inf    -inf  
+dipped                            -inf    -inf    -inf
+below                                     -inf    -inf
+the                                               -inf
+horizon  0.1252  0.1758  0.1115  0.1812  0.1945  0.2119
+"""
 ```
