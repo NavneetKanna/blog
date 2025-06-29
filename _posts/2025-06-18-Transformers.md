@@ -302,10 +302,45 @@ horizon  0.1252  0.1758  0.1115  0.1812  0.1945  0.2119
 """
 ```
 
-This matrix tells us how much how much weightage we need to give to other tokens wrt the query token `horizon`. To do this we can just matmul `r` with the `value` matrix
+This matrix tells us how much how much weightage we need to give to other tokens wrt the query token `horizon`, or in the other words, it tells us how much attention `horizon` token should pay to every other token. To do this we can just matmul `r` with the `value` matrix, remember that the `value` matrix contains the actual content of the sequence,
 
 ```python
 
-# (6, 6) @ (6, 2)
+# (6, 2) = (6, 6) @ (6, 2)
 out = r @ v
+
+"""
+
+          the     sun    dipped   below    the   horizon
+the                0       0        0       0       0
+sun                        0        0       0       0
+dipped                              0       0       0
+below                                       0       0
+the                                                 0
+horizon  0.1252  0.1758  0.1115  0.1812  0.1945  0.2119
+
+@
+
+[
+    [0.5637, 0.4056],     # the
+    [0.9803, 0.0100],     # sun
+    [0.4111, 0.3980],     # dipped
+    [0.6882, 0.9797],     # below
+    [0.5551, 0.7583],     # the 
+    [0.3060, 0.2141],     # horizon
+]
+
+out
+
+[
+    []                # the
+    []                # sun
+    []                # dipped
+    []                # below
+    []                # the
+    [0.5863, 0.4673]  # horizon
+]
+"""
 ```
+
+Therefore, the final output blends together context from all tokens, weighted by their relevance.
