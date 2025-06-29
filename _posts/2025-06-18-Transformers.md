@@ -4,13 +4,13 @@ title: "Transformers (Decoder-Only)"
 date: 2025-06-18
 ---
 
-In the post, I try to explain the transformer architecture (decoder-only) from scratch, so lets begin. 
+In the post, I will try to explain the transformer architecture (decoder-only) from scratch, so lets begin. 
 
 ### High level overview
 
-1. The data is embedded along with position.
-2. There are multiple blocks. Each block consists of multiple Multi-Head Attention layers, followed by layer norms, followed by feed-forward network.
-3. After the blocks, there is a linear and softmax linear, which outputs probabilites.
+1. Given a prompt, it is first tokenized and embedded with position. This flows into a block.
+2. There are multiple blocks. Each block consists of Multi-Head Attention layers, followed by layer norms, followed by feed-forward network.
+3. After the blocks, there is a linear and softmax linear, which outputs probabilites of the token should come next.
 
 
 ### Input data
@@ -24,8 +24,8 @@ inp = (2, 6, 4)
 """
 where,
     2 is the batch size
-    4 is the context length
-    3 is the embedding dimension
+    6 is the context length
+    4 is the embedding dimension
 """
 
 """
@@ -58,8 +58,9 @@ inp = [
 ]
 
 """
-We have 2 batches, each with 6 rows (these are words from the dataset, since that is our context length)
-and 3 columns (the length of our embedding dimension).
+We have 2 batches, each with 6 rows (these are words from the dataset, 
+since that is our context length) and 4 columns (the length of our 
+embedding dimension).
 """
 ```
 
@@ -75,6 +76,8 @@ The block consists of multiple attention heads, layer normalization layers, and 
 4. The result of this addition is passed through another layer normalization layer.
 5. The normalized output is then fed into the feed-forward layer.
 6. Finally, the output of the feed-forward layer is added to the output from step 3.
+
+![block]({{ "/assets/images/block.svg" | prepend: site.baseurl }})
 
 #### Multi-Attention heads
 
