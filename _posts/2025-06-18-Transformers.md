@@ -78,6 +78,7 @@ The block consists of multiple attention heads, layer normalization layers, and 
 6. Finally, the output of the feed-forward layer is added to the output from step 3.
 
 ![block]({{ "/assets/images/block.svg" | prepend: site.baseurl }})
+{:style="display:block; margin-left:auto; margin-right:auto"}
 
 #### Multi-Attention heads
 
