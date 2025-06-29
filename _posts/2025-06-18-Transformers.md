@@ -125,9 +125,10 @@ value = nn.Linear(4, 2, bias=False)     # value.weight.shape = (2, 4)
 The input shape that is fed into each head remains the same, ie, (2, 6, 4). So lets feed this into the attention head and see what happens
 
 ```python
-inp = (2, 4, 6)
+inp = (2, 6, 4)
 
-# first, we get the respective query, key and value matrix by projecting them into the new space
+# first, we get the respective query, key and value matrix by projecting 
+# them into the new space
 q = query(inp)          # inp @ query.weight.T = (2, 6, 4) @ (4, 2) = (2, 6, 2)
 k = key(inp)            # inp @ key.weight.T = (2, 6, 4) @ (4, 2) = (2, 6, 2)
 v = value(inp)          # inp @ value.weigth.T = (2, 6, 4) @ (4, 2) = (2, 6, 2)
@@ -135,12 +136,14 @@ v = value(inp)          # inp @ value.weigth.T = (2, 6, 4) @ (4, 2) = (2, 6, 2)
 # second, we take the dot product (matmul) between the queries and keys
 r = q @ k.transpose(-2, -1)   # (2, 6, 2) @ (2, 2, 6) = (2, 6, 6)
 
-# third, we scale it by the square root of the head_size (hence the name scaled dot-product attention)
+# third, we scale it by the square root of the head_size
+# (hence the name scaled dot-product attention)
 r = r * k.shape[-1]**-0.5     # (2, 6, 6)
 
 # fourth, we apply causal mask
 tril = torch.tril(torch.ones(6, 6))
-r = r.masked_fill(tril[:inp.shape[1], :inp.shape[1]] == 0, float('-inf'))    # (2, 6, 6)
+# (2, 6, 6)
+r = r.masked_fill(tril[:inp.shape[1], :inp.shape[1]] == 0, float('-inf'))
 
 # fifth, we normalize it using softmax
 r = F.softmax(r, dim=-1)    # (2, 6, 6)
@@ -297,4 +300,12 @@ below                                       0       0
 the                                                 0
 horizon  0.1252  0.1758  0.1115  0.1812  0.1945  0.2119
 """
+```
+
+This matrix tells us how much how much weightage we need to give to other tokens wrt the query token `horizon`. To do this we can just matmul `r` with the `value` matrix
+
+```python
+
+# (6, 6) @ (6, 2)
+out = r @ v
 ```
