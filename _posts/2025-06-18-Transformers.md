@@ -77,14 +77,22 @@ The block consists of multiple attention heads, layer normalization layers, and 
 5. The normalized output is then fed into the feed-forward layer.
 6. Finally, the output of the feed-forward layer is added to the output from step 3.
 
-![block]({{ "/assets/images/block.svg" | prepend: site.baseurl }})
-{:style="display:block; margin-left:auto; margin-right:auto"}
+<!-- ![block]({{ "/assets/images/block.svg" | prepend: site.baseurl }})
+{:style="display:block; margin-left:auto; margin-right:auto"} -->
+
+<div style="text-align:center;">
+  <img src="{{ '/assets/images/block.svg' | prepend: site.baseurl }}" alt="block" style="display:inline-block;">
+</div>
+
 
 #### Multi-Attention heads
 
 1. The input is fed into multiple attention heads in parallel.
 2. The outputs from each attention head are concatenated.
 3. The concatenated output is then passed through a linear layer.
+
+![block]({{ "/assets/images/mha.svg" | prepend: site.baseurl }})
+{:style="display:block; margin-left:auto; margin-right:auto"}
 
 #### Single Attention head (Attention mechanism)
 
