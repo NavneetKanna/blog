@@ -93,9 +93,9 @@ The block consists of multiple attention heads, layer normalization layers, and 
 
 #### Single Attention head (Attention mechanism)
 
-First lets understand what are the goals of attention mechanism, what does it try to achieve,
+First lets understand what is the goal of attention mechanism, what does it try to achieve,
 
-1. Decide what parts of the input sequence (the context length) to focus on when processing or generating each token.
+1. Decide what parts of the input sequence (the context length) to focus on when processing or generating next token.
 
 For our example, lets take the first input sequence, ```The sun dipped below the horizon``` (6 is our context length). Let's say we are predicting the last word ```The sun dipped below the ____```, to predict this word, it needs to learn that the word ```sun``` or ```dipped``` is more important or relevant compared to others, and give more attention towards those words.
 
@@ -103,11 +103,11 @@ To accomplish this, there are 3 vectors that are used, query, key and value. The
 
 | Name          | Intuition                 |
 | ------------- | -------------------------- |
-| **Query (Q)** | What do I need?            |
+| **Query (Q)** | The current token in question |
 | **Key (K)**   | What do I have?            |
-| **Value (V)** | What info can I provide?   |
+| **Value (V)** | The actual representation of the tokens |
 
-Each token in the sequence has got all 3 vectors associated with them. The way they are derived is by shifting or projecting them from embedding space into a query, key and value space using a linear transformation ```nn.linear(bias=False)```. The weights associated with this linear layer are learnt during training. In other words, the model tries to learn a good weight matrix that can transform the input embedding into reasonable representations of the query, key and values space for the given dataset. The reason this is done is because, say the word apple is used in a sentence, based on the context, we can tell if the word apple is referring to the fruit or the company, however, in the embedding space, the word apple has got 1 fixed representation.
+Each token in the sequence has got all 3 vectors associated with them. The way they are derived is by shifting or projecting them from embedding space into a query, key and value space using a linear transformation ```nn.linear(bias=False)```. The weights associated with this linear layer are learnt during training. In other words, the model tries to learn a good weight matrix that can transform the input embedding into reasonable representations of the query, key and value space for the given dataset. The reason this is done is because, say the word apple is used in a sentence, based on the context, we can tell if the word apple is referring to the fruit or the company, however, in the embedding space, the word apple has got 1 fixed representation.
 
 We get the query, key and value matrix like so
 
