@@ -104,7 +104,7 @@ To accomplish this, there are 3 vectors that are used, query, key and value. The
 | Name          | Intuition                 |
 | ------------- | -------------------------- |
 | **Query (Q)** | The current token in question |
-| **Key (K)**   | What do I have?            |
+| **Key (K)**   | Each tokens relevance wrt the query token |
 | **Value (V)** | The actual representation of the tokens |
 
 Each token in the sequence has got all 3 vectors associated with them. The way they are derived is by shifting or projecting them from embedding space into a query, key and value space using a linear transformation ```nn.linear(bias=False)```. The weights associated with this linear layer are learnt during training. In other words, the model tries to learn a good weight matrix that can transform the input embedding into reasonable representations of the query, key and value space for the given dataset. The reason this is done is because, say the word apple is used in a sentence, based on the context, we can tell if the word apple is referring to the fruit or the company, however, in the embedding space, the word apple has got 1 fixed representation.
@@ -232,9 +232,9 @@ v = [
 ]
 ```
 
-The token ```horizon``` has now shifted/projected to a new query, key and value space. The query matrix as the name suggests, is trying to query other tokens in the sequence and ask each of them which one of you are relevant to me ?. The key matrix contains the answer to this question. Remember that these are all vectors in n-dim space, when we take a dot product between 2 vectors, it signifies how close those 2 vectors are or in other words if they point in the same direction. So when we take the dot product between the query and key vectors, the scalar output tells us how much one token in the sequence (key) is related to the token in question (query).
+The token ```horizon``` has now shifted/projected to a new query, key and value space. The query matrix as the name suggests, is trying to query other tokens in the sequence and ask each of them which one of you are relevant to me ? The key matrix contains the answer to this question. Remember that these are all vectors in n-dim space, when we take a dot product between 2 vectors, it signifies how close those 2 vectors are or in other words if they point in the same direction. So when we take the dot product between the query and key vectors, the scalar output tells us how much one token in the sequence (key) is related to the token in question (query).
 
-Lets remove the BS dim, to make things simpler, so now we have
+Lets remove the BS dim to make things simpler, so now we have
 
 ```python
 
@@ -296,7 +296,7 @@ tril = torch.tril(torch.ones(6, 6))
 r = r.masked_fill(tril[:inp.shape[1], :inp.shape[1]] == 0, float('-inf'))
 ```
 
-Next we apply softmax along the last dim to convert the raw attention scores into a probability distribution so that all rows sum to 1. This will be useful in the next step when we to weight each value vector.
+Next we apply softmax along the last dim to convert the raw attention scores into a probability distribution so that all rows sum to 1. This will be useful in the next step when we want to weight each value vector.
 
 ```python
 r = F.softmax(r, dim=-1)
