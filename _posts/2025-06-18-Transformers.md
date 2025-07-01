@@ -131,7 +131,7 @@ key = nn.Linear(4, 2, bias=False)       # key.weight.shape = (2, 4)
 value = nn.Linear(4, 2, bias=False)     # value.weight.shape = (2, 4)
 ```
 
-The input shape that is fed into each head remains the same, ie, (2, 6, 4). So lets feed this into the attention head and see what happens
+The input that is fed into each head remains the same, ie, (2, 6, 4). So lets feed this into the attention head and see what happens
 
 ```python
 inp = (2, 6, 4)
@@ -160,6 +160,9 @@ r = F.softmax(r, dim=-1)    # (2, 6, 6)
 # sixth, perform weighted sum wrt the values
 out = r @ v     # (2, 6, 6) @ (2, 6, 2) = (2, 6, 2)
 ```
+<div style="text-align:center;">
+  <img src="{{ '/assets/images/sha.svg' | prepend: site.baseurl }}" alt="mha" style="display:inline-block;">
+</div>
 
 Lets see what is happening with 1 token say ```horizon```, 
 
