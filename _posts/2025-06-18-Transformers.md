@@ -104,7 +104,7 @@ To accomplish this, there are 3 vectors that are used, query, key and value. The
 | Name          | Intuition                 |
 | ------------- | -------------------------- |
 | **Query (Q)** | The current token in question |
-| **Key (K)**   | Each tokens relevance wrt the query token |
+| **Key (K)**   | Each token's relevance wrt the query token |
 | **Value (V)** | The actual representation of the tokens |
 
 Each token in the sequence has got all 3 vectors associated with them. The way they are derived is by shifting or projecting them from embedding space into a query, key and value space using a linear transformation ```nn.linear(bias=False)```. The weights associated with this linear layer are learnt during training. In other words, the model tries to learn a good weight matrix that can transform the input embedding into reasonable representations of the query, key and value space for the given dataset. The reason this is done is because, say the word apple is used in a sentence, based on the context, we can tell if the word apple is referring to the fruit or the company, however, in the embedding space, the word apple has got 1 fixed representation.
