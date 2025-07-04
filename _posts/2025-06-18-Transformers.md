@@ -18,7 +18,6 @@ In the post, I will try to explain the transformer architecture (decoder-only) f
 Lets come back to encoding the input later, but lets assume after embedding with position, the input is as follows,
 
 ```python
-
 inp = (2, 6, 4)
 
 """
@@ -167,7 +166,6 @@ out = r @ v     # (2, 6, 6) @ (2, 6, 2) = (2, 6, 2)
 Lets see what is happening with 1 token say ```horizon```, 
 
 ```python
-
 # (2, 6, 4)
 inp = [
     [
@@ -237,7 +235,6 @@ The token ```horizon``` has now shifted/projected to a new query, key and value 
 Lets remove the BS dim to make things simpler, so now we have
 
 ```python
-
 # (6, 2)
 q = [
         [],                   # the
@@ -317,7 +314,6 @@ horizon  0.1252  0.1758  0.1115  0.1812  0.1945  0.2119
 This matrix tells us how much how much weightage we need to give to other tokens wrt the query token `horizon`, or in the other words, it tells us how much attention `horizon` token should pay to every other token. To do this we can just matmul `r` with the `value` matrix, remember that the `value` matrix contains the actual content of the sequence,
 
 ```python
-
 # (6, 2) = (6, 6) @ (6, 2)
 out = r @ v
 
@@ -372,7 +368,6 @@ the output of a single head is of shape (2, 6, 2), therefore when we concatenate
 The output now gets passed to a linear layer
 
 ```python
-
 # if we have divided the embedding dimension equally, then the linear layer 
 # can just be (n_emdb, n_embd)
 # nn.Linear(2*2, 4)
@@ -387,7 +382,6 @@ Next, the output is added with the input. This is called as residual connections
 
 
 ```python
-
 # therefore we finally have
 # (2, 6, 4) = (2, 6, 4) + (2, 6, 4)
 x = x + self_attention(layer_norm1(x))
