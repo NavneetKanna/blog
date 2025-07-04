@@ -356,3 +356,26 @@ out
 ```
 
 Therefore, the final output blends together context from all tokens, weighted by their relevance.
+
+Great, so remember that all this is done for a single head, but there are multiple heads that run in parallel, once the attention mechanisim is complete, we concatenate them along the last dim
+
+```python
+out = torch.cat([h(x) for h in heads], dim=-1)
+
+"""
+In our example, we have 2 heads, and as we have seen in the previous step, the output of a single head is of shape (2, 6, 2), therefore when we concatenate 2 heads along the last dim, we get the final output shape as (2, 6, 4).
+"""
+```
+
+The output now gets passed to a linear layer
+
+```python
+
+# if we have divided the embedding dimension equally, then the linear layer can just be (n_emdb, n_embd)
+# nn.Linear(2*2, 4)
+proj = nn.Linear(head_size * num_heads, n_embd) 
+# (2, 6, 4) = (2, 6, 4) @ (4, 4)
+self.proj(out)
+```
+
+Each head captures or learn different aspects of the data, for example, one head might learn grammer context, and another head might learn time context, etc. When we concatenate them, we are just stacking them, but to improve the learning a linear layer is used.
