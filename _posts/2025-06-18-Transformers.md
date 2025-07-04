@@ -363,7 +363,9 @@ Great, so remember that all this is done for a single head, but there are multip
 out = torch.cat([h(x) for h in heads], dim=-1)
 
 """
-In our example, we have 2 heads, and as we have seen in the previous step, the output of a single head is of shape (2, 6, 2), therefore when we concatenate 2 heads along the last dim, we get the final output shape as (2, 6, 4).
+In our example, we have 2 heads, and as we have seen in the previous step, 
+the output of a single head is of shape (2, 6, 2), therefore when we concatenate 
+2 heads along the last dim, we get the final output shape as (2, 6, 4).
 """
 ```
 
@@ -371,11 +373,22 @@ The output now gets passed to a linear layer
 
 ```python
 
-# if we have divided the embedding dimension equally, then the linear layer can just be (n_emdb, n_embd)
+# if we have divided the embedding dimension equally, then the linear layer 
+# can just be (n_emdb, n_embd)
 # nn.Linear(2*2, 4)
 proj = nn.Linear(head_size * num_heads, n_embd) 
 # (2, 6, 4) = (2, 6, 4) @ (4, 4)
-self.proj(out)
+out = self.proj(out)
 ```
 
 Each head captures or learn different aspects of the data, for example, one head might learn grammer context, and another head might learn time context, etc. When we concatenate them, we are just stacking them, but to improve the learning a linear layer is used.
+
+Next, the output is added with the input. This is called as residual connections or skip connections. Basically, these help in optimization during backpropogation, because, in very deep networks such as transformers, the gradient can become very small as they flow backward which hinders the learning process. One way to solve this is by adding the input to the output after some layers. We know that the addition node in an autograd graph distributes the gradient equally to both of its input, hence keeping the gradient alive till it reaches the input.
+
+
+```python
+
+# therefore we finally have
+# (2, 6, 4) = (2, 6, 4) + (2, 6, 4)
+x = x + self_attention(layer_norm1(x))
+```
