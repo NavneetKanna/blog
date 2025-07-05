@@ -409,3 +409,40 @@ ffwd = FeedFoward(4)
 # (2, 6, 4)
 x = x + ffwd(layer_norm1(x))
 ```
+
+So we have finally finished processing 1 block. Now, there are n blocks that run sequentially one after the other, the ouput of 1 block is the input to the second block.
+
+```python
+blocks = nn.Sequential(*[Block() for _ in range(n_blocks)])
+
+# (2, 6, 4)
+x = blocks(x)
+```
+
+Although the blocks are processed sequentially, the multi-attention heads are processed parallelly. Once this is complete, we pass the output to a last layernorm and then through a last feed-forward network that procjects the output from the embedding space to the vocabulary space.
+
+```python
+ln_f = nn.LayerNorm(n_embd)
+lm_head = nn.Linear(n_embd, vocab_size)
+
+x = blocks(x) # (2, 6, 4)
+x = ln_f(x) # (2, 6, 4)
+# (2, 6, 4) @ (4, vocab_size)
+logits = lm_head(x) # (2, 6, vocab_size)
+```
+
+Here `vocab_size` is the unique characters that occur in the dataset. In our example,
+
+```python
+
+text = """
+The sun dipped below the horizon, painting the sky with hues of orange and pink.
+A gentle breeze rustled the leaves, creating a soothing melody.
+In that peaceful moment, the world seemed to pause and breathe.
+"""
+
+chars = sorted(list(set(text)))
+vocab_size = len(chars) # 30
+```
+
+Therefore the final output gives the logits, which when softmax is appleid to, tells us the probability of the next word occuring.
