@@ -386,3 +386,26 @@ Next, the output is added with the input. This is called as residual connections
 # (2, 6, 4) = (2, 6, 4) + (2, 6, 4)
 x = x + self_attention(layer_norm1(x))
 ```
+
+Now the output goes through another layernorm and a feed-forward network. The feed-forward network is a simple network with the hidden layer size being 4 times the embedding dimension. The expression 4 times the embeddding dimension comes from the original paper.
+
+```python
+class FeedFoward(nn.Module):
+    def __init__(self, n_embd):
+        super().__init__()
+        self.net = nn.Sequential(
+            nn.Linear(n_embd, 4 * n_embd),
+            nn.ReLU(),
+            nn.Linear(4 * n_embd, n_embd),
+        )
+
+    def forward(self, x):
+        return self.net(x)
+
+ffwd = FeedFoward(4)
+# (2, 6, 4) + (((2, 6, 4) @ (4, 16)) @ (16, 4))
+# (2, 6, 4) + ((2, 6, 16) @ (16, 4))
+# (2, 6, 4) + ((2, 6, 4))
+# (2, 6, 4)
+x = x + ffwd(layer_norm1(x))
+```
