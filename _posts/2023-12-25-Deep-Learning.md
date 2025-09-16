@@ -144,7 +144,7 @@ log_softmax_output = logits - ss.log() # (bs, 3)
 cross_entropy_loss = -log_softmax_output[target].sum() # ()
 ```
 
-There is also one additional trick used to make the logsoftmax numerically stable, since exponentials of large numbers is very large, we just subtract the sample with the max of that sample
+There is also one additional trick used to make the logsoftmax numerically stable, since exponentials of large numbers is very high, we just subtract the sample with the max of that sample
 
 $$log(p) = (p_i - max(p_i)) - log(sum(exp(p_i - max(p_i))))$$
 
