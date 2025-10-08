@@ -143,3 +143,4 @@ When we use for loops to traverse through the rows and columns, this multiplicat
 a(1, 2) = (1*3) + 2
 a(1, 2) = 5
 
+The same thing applies to the matmul code. A[rowA * colsA + sharedIndex], here sharedIndex is nothing but colA. So we are accessing A[0], A[1] and so on. For B B[sharedIndex * colsB + colB], it is slightly different, since in the inner most loop we are traversing along the colsA or rowsB, for every row of A we want to get the col of B.
