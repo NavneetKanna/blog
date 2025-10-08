@@ -137,12 +137,20 @@ Now to access say (1, 2) element, the formula is
 
 a(1, 2) = current_row * no_of_cols + current_column
 
-When we use for loops to traverse through the rows and columns, this multiplication (current_row * no_of_cols) takes the pointer to the starting index of a row, in this case 3. Next the additon (+ current_column) offsets the pointer to the column required, in this case 2. Therefore 
+When we use for loops to traverse through the rows and columns, 
+this multiplication (current_row * no_of_cols) takes the pointer to 
+the starting index of a row, in this case 3. 
+Next the additon (+ current_column) offsets the pointer to the 
+column required, in this case 2. Therefore 
 
 a(1, 2) = (1*3) + 2
 a(1, 2) = 5
 
-The same thing applies to the matmul code. A[rowA * colsA + sharedIndex], here sharedIndex is nothing but colA. So we are accessing A[0], A[1] and so on. For B B[sharedIndex * colsB + colB], it is slightly different, since in the inner most loop we are traversing along the colsA or rowsB, for every row of A we want to get the corresponding col of B.
+The same thing applies to the matmul code. A[rowA * colsA + sharedIndex], 
+here sharedIndex is nothing but colA. So we are accessing A[0], A[1] and so on. 
+For B B[sharedIndex * colsB + colB], it is slightly different, since in the 
+inner most loop we are traversing along the colsA or rowsB, for every row of A 
+we want to get the corresponding col of B.
 ```
 
 Now the above implementation is not cache-friendly. In other words, it is an efficient algorithm. It makes sense, since if we look at B matrix, for every iteration of the loop we are skipping colsB/sharedIndex length to retrive the next item. This is not good.
