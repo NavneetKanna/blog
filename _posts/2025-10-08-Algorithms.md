@@ -128,6 +128,7 @@ a = [(0, 0), (0, 1), (0, 2)
      (1, 0), (1, 1), (1, 2)]
 a = [0, 1, 2
      3, 4, 5]
+```
 
 In memory, eveything is laid out as 1D.
 
@@ -146,7 +147,7 @@ The same thing applies to the matmul code. A[rowA * colsA + sharedIndex], here s
 
 Now the above implementation is not cache-friendly. In other words, it is an efficient algorithm. It makes sense, since if we look at B matrix, for every iteration of the loop we are skipping colsB/sharedIndex length to retrive the next item. This is not good.
 
-Whats good for the cache and speed is that we retrieve elements that are adjacent to one another.
+Whats good for the cache and speed is that we retrieve/store elements that are adjacent to one another.
 
 If we go back to the way matmul is done
 
@@ -250,7 +251,7 @@ out[7] += A[5] * B[11]
 
 If looking at it from 2D perspective makes it easier
 
-```
+```c
 // naive/not cache efficient method
 for (int rowA = 0; rowA < n; rowA++) {
     for (int colB = 0; colB < n; colB++) {
