@@ -153,7 +153,7 @@ inner most loop we are traversing along the colsA or rowsB, for every row of A
 we want to get the corresponding col of B.
 ```
 
-Now the above implementation is not cache-friendly. In other words, it is an efficient algorithm. It makes sense, since if we look at B matrix, for every iteration of the loop we are skipping colsB/sharedIndex length to retrive the next item. This is not good.
+Now the above implementation is not cache-friendly. In other words, it is not an efficient algorithm. It makes sense, since if we look at B matrix, for every iteration of the loop we are skipping colsB/sharedIndex length to retrive the next item. This is not good.
 
 Whats good for the cache and speed is that we retrieve/store elements that are adjacent to one another.
 
