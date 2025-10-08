@@ -278,5 +278,10 @@ for (int rowA = 0; rowA < n; rowA++) {
         }
     }
 }
-
 ```
+
+Here is a gif showing the cache efficient way of doing matmul (the iteration shown is the second loop and the innermoost loop are tge multiplies and add)
+
+<div style="text-align:center;">
+  <img src="{{ '/assets/images/matmul.gif' | prepend: site.baseurl }}" alt="block" style="display:inline-block;">
+</div>
