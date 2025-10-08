@@ -128,7 +128,6 @@ a = [(0, 0), (0, 1), (0, 2)
      (1, 0), (1, 1), (1, 2)]
 a = [0, 1, 2
      3, 4, 5]
-```
 
 In memory, eveything is laid out as 1D.
 
@@ -144,6 +143,7 @@ a(1, 2) = (1*3) + 2
 a(1, 2) = 5
 
 The same thing applies to the matmul code. A[rowA * colsA + sharedIndex], here sharedIndex is nothing but colA. So we are accessing A[0], A[1] and so on. For B B[sharedIndex * colsB + colB], it is slightly different, since in the inner most loop we are traversing along the colsA or rowsB, for every row of A we want to get the corresponding col of B.
+```
 
 Now the above implementation is not cache-friendly. In other words, it is an efficient algorithm. It makes sense, since if we look at B matrix, for every iteration of the loop we are skipping colsB/sharedIndex length to retrive the next item. This is not good.
 
