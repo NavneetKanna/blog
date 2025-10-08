@@ -123,7 +123,6 @@ out[7] += A[5] * B[11]
 To understand the way the indexing works, we need to lay out the matrix the way it is laid out in memory
 
 ```
-
 (2, 3)
 a = [(0, 0), (0, 1), (0, 2)
      (1, 0), (1, 1), (1, 2)]
@@ -143,4 +142,65 @@ When we use for loops to traverse through the rows and columns, this multiplicat
 a(1, 2) = (1*3) + 2
 a(1, 2) = 5
 
-The same thing applies to the matmul code. A[rowA * colsA + sharedIndex], here sharedIndex is nothing but colA. So we are accessing A[0], A[1] and so on. For B B[sharedIndex * colsB + colB], it is slightly different, since in the inner most loop we are traversing along the colsA or rowsB, for every row of A we want to get the col of B.
+The same thing applies to the matmul code. A[rowA * colsA + sharedIndex], here sharedIndex is nothing but colA. So we are accessing A[0], A[1] and so on. For B B[sharedIndex * colsB + colB], it is slightly different, since in the inner most loop we are traversing along the colsA or rowsB, for every row of A we want to get the corresponding col of B.
+
+Now the above implementation is not cache-friendly. In other words, it is an efficient algorithm. It makes sense, since if we look at B matrix, for every iteration of the loop we are skipping colsB/sharedIndex length to retrive the next item. This is not good.
+
+Whats good for the cache and speed is that we retrieve elements that are adjacent to one another.
+
+If we go back to the way matmul is done
+
+```
+(2, 3)
+A = [[0, 1, 2
+      3, 4, 5]]
+
+(3, 4)
+B = [[0, 1, 2, 3
+      4, 5, 6, 7
+      8, 9, 10, 11]]
+
+(2, 4)
+C = [[C(0, 0), C(0, 1), C(0, 2), C(0, 3)
+      C(1, 0), C(1, 1), C(1, 2), C(1, 3)]]
+
+C(0, 0) = A(0, 0)*B(0, 0) + A(0, 1)*B(1, 0) + A(0, 2)*B(2, 0)
+C(0, 1) = A(0, 0)*B(0, 1) + A(0, 1)*B(1, 1) + A(0, 2)*B(2, 1)
+...
+
+Splitting it up
+
+C(0, 0) = A(0, 0)*B(0, 0) + ... + ...
+C(0, 1) = A(0, 0)*B(0, 1) + ... + ...
+C(0, 2) = A(0, 0)*B(0, 2) + ... + ...
+C(0, 3) = A(0, 0)*B(0, 3) + ... + ...
+
+C(0, 0) = ... + A(0, 1)*B(1, 0) + ...
+C(0, 1) = ... + A(0, 1)*B(1, 1) + ...
+C(0, 2) = ... + A(0, 1)*B(1, 2) + ...
+C(0, 3) = ... + A(0, 1)*B(1, 3) + ...
+
+C(0, 0) = ... + ... + A(0, 2)*B(2, 0)
+C(0, 1) = ... + ... + A(0, 2)*B(2, 1)
+C(0, 2) = ... + ... + A(0, 2)*B(2, 2)
+C(0, 3) = ... + ... + A(0, 2)*B(2, 3)
+```
+
+We can observe that for the for every element in a row of C, adjacent elements of A and B are used. Or in other words, for every row of C, if we loop through it colsB times and keep adding the respective element, we have essentially done matmul. We do not have to skip colsB time everytime. 
+
+In the C code, all we have to do to achieve this is by interchanging the last and second last loop
+
+```c
+int rowsA = 2;
+int colsB = 4;
+int colsA = 3;
+for (int rowA = 0; rowA < rowsA; rowA++) {                   // Iterate through rows of A or C
+    for (int sharedIndex = 0; sharedIndex < colsA; sharedIndex++) {   // Iterate through shared dimension
+        for (int colB = 0; colB < colsB; colB++) {           // Iterate through columns of B or C
+            // Assuming 'out' is already zeroed before this loop:
+            out[rowA * colsB + colB] += A[rowA * colsA + sharedIndex] * B[sharedIndex * colsB + colB];
+        }
+    }
+}
+
+```
