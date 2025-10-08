@@ -188,7 +188,7 @@ C(0, 3) = ... + ... + A(0, 2)*B(2, 3)
 
 We can observe that for the for every element in a row of C, adjacent elements of A and B are used. Or in other words, for every row of C, if we loop through it colsB times and keep adding the respective element, we have essentially done matmul. We do not have to skip colsB time everytime. 
 
-In the C code, all we have to do to achieve this is by interchanging the last and second last loop
+In the C code, all we have to do to achieve this, is by interchanging the last and second last loop
 
 ```c
 int rowsA = 2;
@@ -199,6 +199,73 @@ for (int rowA = 0; rowA < rowsA; rowA++) {                   // Iterate through 
         for (int colB = 0; colB < colsB; colB++) {           // Iterate through columns of B or C
             // Assuming 'out' is already zeroed before this loop:
             out[rowA * colsB + colB] += A[rowA * colsA + sharedIndex] * B[sharedIndex * colsB + colB];
+        }
+    }
+}
+```
+
+```
+out[0] += A[0] * B[0]
+out[1] += A[0] * B[1]
+out[2] += A[0] * B[2]
+out[3] += A[0] * B[3]
+
+--- innermost loop done (4 cols of B) ---
+
+out[0] += A[1] * B[4]
+out[1] += A[1] * B[5]
+out[2] += A[1] * B[6]
+out[3] += A[1] * B[7]
+
+--- innermost loop done (4 cols of B) ---
+
+out[0] += A[2] * B[8]
+out[1] += A[2] * B[9]
+out[2] += A[2] * B[10]
+out[3] += A[2] * B[11]
+
+--- innermost loop done (4 cols of B) ---
+
+out[4] += A[3] * B[0]
+out[5] += A[3] * B[1]
+out[6] += A[3] * B[2]
+out[7] += A[3] * B[3]
+
+--- innermost loop done (4 cols of B) ---
+
+out[4] += A[4] * B[4]
+out[5] += A[4] * B[5]
+out[6] += A[4] * B[6]
+out[7] += A[4] * B[7]
+
+--- innermost loop done (4 cols of B) ---
+
+out[4] += A[5] * B[8]
+out[5] += A[5] * B[9]
+out[6] += A[5] * B[10]
+out[7] += A[5] * B[11]
+
+--- innermost loop done (4 cols of B) ---
+```
+
+If looking at it from 2D perspective makes it easier
+
+```
+// naive/not cache efficient method
+for (int rowA = 0; rowA < n; rowA++) {
+    for (int colB = 0; colB < n; colB++) {
+        for (int sharedIndex = 0; sharedIndex < n; sharedIndex++) {
+            out[rowA][colB] += A[rowA][sharedIndex] * B[sharedIndex][colB];
+        }
+    }
+}
+
+
+// cache efficient method
+for (int rowA = 0; rowA < n; rowA++) {
+    for (int sharedIndex = 0; sharedIndex < n; sharedIndex++) {
+        for (int colB = 0; colB < n; colB++) {
+            out[rowA][colB] += A[rowA][sharedIndex] * B[sharedIndex][colB];
         }
     }
 }
