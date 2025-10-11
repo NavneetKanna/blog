@@ -157,45 +157,43 @@ Now the above implementation is not cache-friendly. In other words, it is not an
 
 Whats good for the cache and speed is that we retrieve/store elements that are adjacent to one another.
 
-If we go back to the way matmul is done
+If we go back to the way matmul is done and observe the successive iterations of the intermost loop
 
 ```
-(2, 3)
-A = [[0, 1, 2
-      3, 4, 5]]
+out[0] += A[0] * B[0]
 
-(3, 4)
-B = [[0, 1, 2, 3
-      4, 5, 6, 7
-      8, 9, 10, 11]]
+--- innermost loop done (3 cols of A or 3 rows of B) ---
 
-(2, 4)
-C = [[C(0, 0), C(0, 1), C(0, 2), C(0, 3)
-      C(1, 0), C(1, 1), C(1, 2), C(1, 3)]]
+out[1] += A[0] * B[1]
 
-C(0, 0) = A(0, 0)*B(0, 0) + A(0, 1)*B(1, 0) + A(0, 2)*B(2, 0)
-C(0, 1) = A(0, 0)*B(0, 1) + A(0, 1)*B(1, 1) + A(0, 2)*B(2, 1)
-...
+--- innermost loop done (3 cols of A or 3 rows of B) ---
 
-Splitting it up
+out[2] += A[0] * B[2]
 
-C(0, 0) = A(0, 0)*B(0, 0) + ... + ...
-C(0, 1) = A(0, 0)*B(0, 1) + ... + ...
-C(0, 2) = A(0, 0)*B(0, 2) + ... + ...
-C(0, 3) = A(0, 0)*B(0, 3) + ... + ...
+--- innermost loop done (3 cols of A or 3 rows of B) ---
 
-C(0, 0) = ... + A(0, 1)*B(1, 0) + ...
-C(0, 1) = ... + A(0, 1)*B(1, 1) + ...
-C(0, 2) = ... + A(0, 1)*B(1, 2) + ...
-C(0, 3) = ... + A(0, 1)*B(1, 3) + ...
+out[3] += A[0] * B[3]
 
-C(0, 0) = ... + ... + A(0, 2)*B(2, 0)
-C(0, 1) = ... + ... + A(0, 2)*B(2, 1)
-C(0, 2) = ... + ... + A(0, 2)*B(2, 2)
-C(0, 3) = ... + ... + A(0, 2)*B(2, 3)
+--- innermost loop done (3 cols of A or 3 rows of B) ---
+
+out[4] += A[3] * B[0]
+
+--- innermost loop done (3 cols of A or 3 rows of B) ---
+
+out[5] += A[3] * B[1]
+
+--- innermost loop done (3 cols of A or 3 rows of B) ---
+
+out[6] += A[3] * B[2]
+
+--- innermost loop done (3 cols of A or 3 rows of B) ---
+
+out[7] += A[3] * B[3]
+
+--- innermost loop done (3 cols of A or 3 rows of B) ---
 ```
 
-We can observe that for the for every element in a row of C, adjacent elements of A and B are used. Or in other words, for every row of C, if we loop through it colsB times and keep adding the respective element, we have essentially done matmul. We do not have to skip colsB time everytime. 
+We can observe that for the for every element in a row of C, adjacent elements of A and B are used. Or in other words, for every row of C, if we loop through it colsB times and keep accumulating the respective element, we have essentially done matmul. We do not have to skip colsB time everytime. 
 
 In the C code, all we have to do to achieve this, is by interchanging the last and second last loop
 
@@ -206,7 +204,6 @@ int colsA = 3;
 for (int rowA = 0; rowA < rowsA; rowA++) {                   // Iterate through rows of A or C
     for (int sharedIndex = 0; sharedIndex < colsA; sharedIndex++) {   // Iterate through shared dimension
         for (int colB = 0; colB < colsB; colB++) {           // Iterate through columns of B or C
-            // Assuming 'out' is already zeroed before this loop:
             out[rowA * colsB + colB] += A[rowA * colsA + sharedIndex] * B[sharedIndex * colsB + colB];
         }
     }
@@ -264,6 +261,7 @@ If looking at it from 2D perspective makes it easier
 for (int rowA = 0; rowA < n; rowA++) {
     for (int colB = 0; colB < n; colB++) {
         for (int sharedIndex = 0; sharedIndex < n; sharedIndex++) {
+            // sharedIndex is the fastest moving index
             out[rowA][colB] += A[rowA][sharedIndex] * B[sharedIndex][colB];
         }
     }
@@ -274,6 +272,7 @@ for (int rowA = 0; rowA < n; rowA++) {
 for (int rowA = 0; rowA < n; rowA++) {
     for (int sharedIndex = 0; sharedIndex < n; sharedIndex++) {
         for (int colB = 0; colB < n; colB++) {
+            // colB is the fastest moving index
             out[rowA][colB] += A[rowA][sharedIndex] * B[sharedIndex][colB];
         }
     }
