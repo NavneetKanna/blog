@@ -282,7 +282,7 @@ for (int rowA = 0; rowA < n; rowA++) {
 Here is a gif showing the cache efficient way of doing matmul (the iteration shown is the second loop and the innermoost loop are the multiplies and add)
 
 <div style="text-align:center;">
-  <img src="{{ '/assets/images/matmul.gif' | prepend: site.baseurl }}" alt="block" style="display:inline-block;">
+  <img src="{{ '/assets/images/matmul_cpu.gif' | prepend: site.baseurl }}" alt="block" style="display:inline-block;">
 </div>
 
 
@@ -290,4 +290,54 @@ Here is a gif showing the cache efficient way of doing matmul (the iteration sho
 
 The same principles apply to the GPU as well, ie, things are more efficient and faster when we retrieve or store items in consecutive memory addresses, this is called memory coalescing in GPU jargon.  
 
-The way we achieve this is by actually using the naive implementation algorithm used in CPU. It actually makes sense when we shift our mind to the way GPU's work.
+The way we achieve this is by actually using the naive algorithm. It actually makes sense when we shift our mind to the way GPU's work.
+
+Lets go back to the the naive implementation
+
+```
+out[0] += A[0] * B[0]
+out[0] += A[1] * B[4]
+out[0] += A[2] * B[8]
+
+--- innermost loop done (3 cols of A or 3 rows of B) ---
+
+out[1] += A[0] * B[1]
+out[1] += A[1] * B[5]
+out[1] += A[2] * B[9]
+
+--- innermost loop done (3 cols of A or 3 rows of B) ---
+
+out[2] += A[0] * B[2]
+out[2] += A[1] * B[6]
+out[2] += A[2] * B[10]
+
+--- innermost loop done (3 cols of A or 3 rows of B) ---
+
+out[3] += A[0] * B[3]
+out[3] += A[1] * B[7]
+out[3] += A[2] * B[11]
+```
+
+Please read my blog post on GPU Programming to understand the fundamentals. The first 2 for loops are launched as thread blocks. Now assuming the warp size is 4 (no of cols in C is 4), each thread in the first row (or in a warp) execute the same instruction. Which means iterating through the last for loop, all the 4 threads calculate the following simultaneously
+
+```
+// first iteration of the innermost loop, all of the below operation is done simultaneously
+
+// 1st thread
+out[0] += A[0] * B[0]
+
+// 2nd thread
+out[1] += A[0] * B[1]
+
+// 3rd thread
+out[2] += A[0] * B[2]
+
+// 4th thread
+out[3] += A[0] * B[3]
+```
+
+Each thread calculates its respective indices for A, B and C and all of them access memory that are adjacent to one other.
+
+<div style="text-align:center;">
+  <img src="{{ '/assets/images/matmul_gpu.gif' | prepend: site.baseurl }}" alt="block" style="display:inline-block;">
+</div>
