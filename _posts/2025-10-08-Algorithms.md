@@ -25,29 +25,16 @@ B = [[0, 1, 2, 3
       8, 9, 10, 11]]
 
 (2, 4)
-C = [[C(0, 0), C(0, 1), C(0, 2), C(0, 3)
-      C(1, 0), C(1, 1), C(1, 2), C(1, 3)]]
+C = [[C(0), C(1), C(2), C(3)
+      C(4), C(5), C(6), C(7)]]
 
-To compute the first element of C(0, 0) we have to multiple and add the first row of A and first column of B.
+To compute the first element of C we have to multiple and add the first row of A and first column of B.
 
-C(0, 0) = A(0, 0)*B(0, 0) + A(0, 1)*B(1, 0) + A(0, 2)*B(2, 0)
-C(0, 0) = 0*1 + 1*5 + 2*9
-C(0, 0) = 23
-
-To compute the second element of C(0, 1) we have to multiple and add the first row of A and second column of B.
-
-C(0, 1) = A(0, 0)*B(0, 1) + A(0, 1)*B(1, 1) + A(0, 2)*B(2, 1)
-C(0, 1) = 0*2 + 1*6 + 2*10
-C(0, 1) = 26
-
-To compute the second element of C(1, 0) we have to multiple and add the second row of A and first column of B.
-
-C(1, 0) = A(1, 0)*B(0, 0) + A(1, 1)*B(1, 0) + A(1, 2)*B(2, 0)
-C(1, 0) = 3*1 + 4*5 + 5*9
-C(1, 0) = 68
+C(0) = A(0)*B(0) + A(1)*B(4) + A(2)*B(8)
+C(0) = 0*0 + 1*4 + 2*8
+C(0) = 20
 
 and so on
-
 ```
 
 ### CPU implementation
