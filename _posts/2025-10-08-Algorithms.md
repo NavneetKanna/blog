@@ -185,7 +185,7 @@ Here is a gif showing the cache efficient way of doing matmul (the iteration sho
 
 The same principles apply to the GPU as well, ie, things are more efficient and faster when we retrieve or store items in consecutive memory addresses, this is called memory coalescing in GPU jargon.  
 
-The way we achieve this is by actually using the naive algorithm. It actually makes sense when we shift our mind to the way GPU's work.
+The way we achieve this is by using the naive algorithm. It makes sense when we shift our mind to the way GPU's work.
 
 Lets go back to the the naive implementation
 
