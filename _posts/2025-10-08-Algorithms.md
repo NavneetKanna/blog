@@ -45,9 +45,6 @@ int colsB = 4;
 int colsA = 3;
 for (int rowA = 0; rowA < rowsA; rowA++) {          // Iterate through rows of Matrix A or Matrix C
     for (int colB = 0; colB < colsB; colB++) {      // Iterate through columns of Matrix B or Matrix C
-        // out[rowA][colB]
-        out[rowA * colsB + colB] = 0;
-
         for (int sharedIndex = 0; sharedIndex < colsA; sharedIndex++) {  // Iterate through the common dimension
             // out[rowA][colB] += A[rowA][sharedIndex] * B[sharedIndex][colB]
             out[rowA * colsB + colB] += A[rowA * colsA + sharedIndex] * B[sharedIndex * colsB + colB];
@@ -57,7 +54,7 @@ for (int rowA = 0; rowA < rowsA; rowA++) {          // Iterate through rows of M
 
 ```
 
-To make things simpler, we can print out the indices
+If you notice that the sharedIndex is the fastest moving index. To make things simpler, we can print out the indices
 
 ```
 out[0] += A[0] * B[0]
@@ -132,23 +129,7 @@ out[2] += A[0] * B[2]
 
 out[3] += A[0] * B[3]
 
---- innermost loop done (3 cols of A or 3 rows of B) ---
-
-out[4] += A[3] * B[0]
-
---- innermost loop done (3 cols of A or 3 rows of B) ---
-
-out[5] += A[3] * B[1]
-
---- innermost loop done (3 cols of A or 3 rows of B) ---
-
-out[6] += A[3] * B[2]
-
---- innermost loop done (3 cols of A or 3 rows of B) ---
-
-out[7] += A[3] * B[3]
-
---- innermost loop done (3 cols of A or 3 rows of B) ---
+and so on
 ```
 
 We can observe that for the for every element in a row of C, adjacent elements of A and B are used. Or in other words, for every row of C, if we loop through it colsB times and keep accumulating the respective element, we have essentially done matmul. We do not have to skip colsB time everytime. 
@@ -162,11 +143,14 @@ int colsA = 3;
 for (int rowA = 0; rowA < rowsA; rowA++) {                   // Iterate through rows of A or C
     for (int sharedIndex = 0; sharedIndex < colsA; sharedIndex++) {   // Iterate through shared dimension
         for (int colB = 0; colB < colsB; colB++) {           // Iterate through columns of B or C
+            // out[rowA][colB] += A[rowA][sharedIndex] * B[sharedIndex][colB]
             out[rowA * colsB + colB] += A[rowA * colsA + sharedIndex] * B[sharedIndex * colsB + colB];
         }
     }
 }
 ```
+
+The colB is the fastest moving index.
 
 ```
 out[0] += A[0] * B[0]
@@ -188,55 +172,8 @@ out[1] += A[2] * B[9]
 out[2] += A[2] * B[10]
 out[3] += A[2] * B[11]
 
---- innermost loop done (4 cols of B) ---
-
-out[4] += A[3] * B[0]
-out[5] += A[3] * B[1]
-out[6] += A[3] * B[2]
-out[7] += A[3] * B[3]
-
---- innermost loop done (4 cols of B) ---
-
-out[4] += A[4] * B[4]
-out[5] += A[4] * B[5]
-out[6] += A[4] * B[6]
-out[7] += A[4] * B[7]
-
---- innermost loop done (4 cols of B) ---
-
-out[4] += A[5] * B[8]
-out[5] += A[5] * B[9]
-out[6] += A[5] * B[10]
-out[7] += A[5] * B[11]
-
---- innermost loop done (4 cols of B) ---
+and so on
 ```
-
-If looking at it from 2D perspective makes it easier
-
-```c
-// naive/not cache efficient method
-for (int rowA = 0; rowA < n; rowA++) {
-    for (int colB = 0; colB < n; colB++) {
-        for (int sharedIndex = 0; sharedIndex < n; sharedIndex++) {
-            // sharedIndex is the fastest moving index
-            out[rowA][colB] += A[rowA][sharedIndex] * B[sharedIndex][colB];
-        }
-    }
-}
-
-
-// cache efficient method
-for (int rowA = 0; rowA < n; rowA++) {
-    for (int sharedIndex = 0; sharedIndex < n; sharedIndex++) {
-        for (int colB = 0; colB < n; colB++) {
-            // colB is the fastest moving index
-            out[rowA][colB] += A[rowA][sharedIndex] * B[sharedIndex][colB];
-        }
-    }
-}
-```
-
 Here is a gif showing the cache efficient way of doing matmul (the iteration shown is the second loop and the innermoost loop are the multiplies and add)
 
 <div style="text-align:center;">
