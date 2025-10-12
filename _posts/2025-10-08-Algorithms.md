@@ -45,9 +45,9 @@ int colsB = 4;
 int colsA = 3;
 for (int rowA = 0; rowA < rowsA; rowA++) {          // Iterate through rows of Matrix A or Matrix C
     for (int colB = 0; colB < colsB; colB++) {      // Iterate through columns of Matrix B or Matrix C
-        out[rowA * colsB + colB] = 0;               // Initialize element of result matrix
+        out[rowA * colsB + colB] = 0;
 
-        for (int sharedIndex = 0; sharedIndex < colsA; sharedIndex++) { 
+        for (int sharedIndex = 0; sharedIndex < colsA; sharedIndex++) {  // Iterate through the common dimension
             out[rowA * colsB + colB] += A[rowA * colsA + sharedIndex] * B[sharedIndex * colsB + colB];
         }
     }
